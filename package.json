@@ -1,0 +1,25 @@
+{
+  "name": "tutorial_parser_combinator",
+  "version": "1.0.0",
+  "description": "Following the Low Level JavaScript tutorial on parser combinators",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npx tsc",
+    "start": "node dist\\app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/durid-ah/tutorial_parser_combinator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/durid-ah/tutorial_parser_combinator/issues"
+  },
+  "homepage": "https://github.com/durid-ah/tutorial_parser_combinator#readme",
+  "devDependencies": {
+    "typescript": "^4.7.2"
+  }
+}
