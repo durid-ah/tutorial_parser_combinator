@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/durid-ah/tutorial_parser_combinator#readme",
   "devDependencies": {
+    "eslint": "^8.16.0",
     "typescript": "^4.7.2"
   }
 }
