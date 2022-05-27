@@ -1,22 +1,21 @@
+import { updateError, updateResult, updateState } from "./parser.helper";
 import { ParserFn, ParserState } from "./parser.model";
 
 export const str = (s: string) => (state: ParserState): ParserState => {
    const {index, target, isError} = state;
    if (isError) return state;
 
-   if (target.slice(index).startsWith(s)) {
-      return {
-         ...state,
-         result: s,
-         index: index + s.length
-      };
+   const slicedTarget = target.slice(index);
+
+   if (slicedTarget.length === 0) {
+      return updateError(state, `str: Tried to match ${s}, but got unexpected end of input`)
    }
 
-   return {
-      ...state,
-      error: `Tried to match ${s}, but got "${target.slice(index, index + 10)}"`,
-      isError: true
-   };
+   if (slicedTarget.startsWith(s)) {
+      return updateState(state, index + s.length, s);
+   }
+
+   return updateError(state, `str: Tried to match ${s}, but got "${target.slice(index, index + 10)}"`);
 }
 
 export const sequenceOf = (parsers: ParserFn[]) => (state: ParserState): ParserState => {
@@ -28,8 +27,5 @@ export const sequenceOf = (parsers: ParserFn[]) => (state: ParserState): ParserS
       results.push(next.result)
    }
 
-   return {
-      ...next,
-      result: results
-   };
+   return updateResult(next, results);
 }

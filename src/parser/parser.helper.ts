@@ -10,6 +10,11 @@ export const updateState = (
    result
 });
 
+export const updateResult = (state: ParserState, result: ParseResult): ParserState => ({
+   ...state,
+   result
+});
+
 export const updateError = (
    state: ParserState, 
    error: string

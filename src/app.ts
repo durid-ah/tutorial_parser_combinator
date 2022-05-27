@@ -18,3 +18,4 @@ console.log(run(parser, 'This is not correct'));
 const parser_2 = sequenceOf([str('hello there!'), str('goodbye there!')]);
 console.log(run(parser_2, 'hello there!goodbye there!'));
 console.log(run(parser_2, 'hello there!goodbye there'));
+console.log(run(parser_2, ''));
