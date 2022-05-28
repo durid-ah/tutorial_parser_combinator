@@ -1,25 +1,23 @@
 import { ParseResult, ParserState } from "./parser.model";
 
-export const updateState = (
+export function updateState(
    state: ParserState, 
    index: number, 
    result: ParseResult
-): ParserState => ({
-   ...state,
-   index,
-   result
-});
+): ParserState {
+   return { ...state, index,  result }
+};
 
-export const updateResult = (state: ParserState, result: ParseResult): ParserState => ({
-   ...state,
-   result
-});
+export function updateResult(
+   state: ParserState, 
+   result: ParseResult
+): ParserState {
+   return { ...state, result };
+}
 
-export const updateError = (
+export function updateError(
    state: ParserState, 
    error: string
-): ParserState => ({
-   ...state,
-   isError: true,
-   error
-});
+): ParserState {
+   return {  ...state, isError: true,  error};
+}
