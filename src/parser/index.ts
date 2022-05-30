@@ -3,3 +3,5 @@ export * from './parsers.helper';
 export * from './parsers';
 export * from './letters.parser';
 export * from './digit.parser';
+export * from './sequence-of.parser';
+export * from './choice.parser';

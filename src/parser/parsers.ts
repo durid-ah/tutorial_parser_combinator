@@ -1,4 +1,4 @@
-import { updateError, updateResult, updateState } from "./parsers.helper";
+import { updateError, updateState } from "./parsers.helper";
 import { Parser, ParserState } from "./parser.model";
 
 export const str = (s: string) => 
@@ -15,18 +15,4 @@ export const str = (s: string) =>
             return updateState(state, index + s.length, s);
             
          return updateError(state, `str: Tried to match ${s}, but got "${target.slice(index, index + 10)}"`);
-      });
-
-export const sequenceOf = (parsers: Parser[]) => 
-   new Parser(
-      (state: ParserState): ParserState => {
-         if (state.isError) return state;
-         const results = [];
-         let next = state;
-         for (let parser of parsers) {
-            next = parser.parserStateTransfromerFn(next);
-            results.push(next.result)
-         }
-
-         return updateResult(next, results);
       });

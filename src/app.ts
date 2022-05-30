@@ -1,4 +1,4 @@
-import { digits, letters, sequenceOf, str } from "./parser";
+import { choice, digits, letters, sequenceOf, str } from "./parser";
 
 const parser = str('hello there!');
 console.log(parser.run('hello there!'));
@@ -29,3 +29,6 @@ console.log(parser_6.run('asde'));
 
 const seq_parser = sequenceOf([digits, letters, digits])
 console.log(seq_parser.run('12123asdasfas12312'));
+
+const choice_parser = choice([digits, letters, digits])
+console.log(choice_parser.run('asdasfas12312'));
