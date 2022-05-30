@@ -5,3 +5,4 @@ export * from './letters.parser';
 export * from './digit.parser';
 export * from './sequence-of.parser';
 export * from './choice.parser';
+export * from './many.parser';
