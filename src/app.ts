@@ -1,6 +1,4 @@
-import { letter, sequenceOf, str } from "./parser";
-
-
+import { digit, letter, sequenceOf, str } from "./parser";
 
 const parser = str('hello there!');
 console.log(parser.run('hello there!'));
@@ -24,3 +22,7 @@ console.log(parser_4.run(''));
 const parser_5 = letter;
 console.log(parser_5.run('1234'));
 console.log(parser_5.run('asde'));
+
+const parser_6 = digit;
+console.log(parser_6.run('1234'));
+console.log(parser_6.run('asde'));
