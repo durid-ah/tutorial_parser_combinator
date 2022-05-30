@@ -13,7 +13,7 @@ export const letters = new Parser(
       
       const regexMatch = slicedTarget.match(lettersRegex);
       if (regexMatch) 
-         return updateState(state, index + regexMatch.length, regexMatch[0]);
+         return updateState(state, index + regexMatch[0].length, regexMatch[0]);
 
       return updateError(state, `letter: Couldn't match letters at index ${index}`);
    });

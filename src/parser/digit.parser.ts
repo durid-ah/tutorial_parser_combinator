@@ -13,7 +13,7 @@ export const digits = new Parser(
       
       const regexMatch = slicedTarget.match(digitsRegex);
       if (regexMatch) 
-         return updateState(state, index + regexMatch.length, regexMatch[0]);
+         return updateState(state, index + regexMatch[0].length, regexMatch[0]);
          
       return updateError(state, `digit: Couldn't match digits at index ${index}`);
    });
