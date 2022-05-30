@@ -1,8 +1,8 @@
-import { updateError, updateState } from "./parser.helper";
+import { updateError, updateState } from "./parsers.helper";
 import { Parser, ParserState } from "./parser.model";
 
 const digitsRegex = /^[0-9]+/;
-export const digit = new Parser(
+export const digits = new Parser(
    (state: ParserState): ParserState => {
       const {index, target, isError} = state;
       if (isError) return state;

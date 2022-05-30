@@ -1,4 +1,4 @@
-import { digit, letter, sequenceOf, str } from "./parser";
+import { digits, letters, sequenceOf, str } from "./parser";
 
 const parser = str('hello there!');
 console.log(parser.run('hello there!'));
@@ -19,10 +19,13 @@ const parser_4 = parser_2
    .mapError((_, idx) => `Expected a greeting @ index ${idx}`);
 console.log(parser_4.run(''));
 
-const parser_5 = letter;
+const parser_5 = letters;
 console.log(parser_5.run('1234'));
 console.log(parser_5.run('asde'));
 
-const parser_6 = digit;
+const parser_6 = digits;
 console.log(parser_6.run('1234'));
 console.log(parser_6.run('asde'));
+
+const seq_parser = sequenceOf([digits, letters, digits])
+console.log(seq_parser.run('12123asdasfas12312'));

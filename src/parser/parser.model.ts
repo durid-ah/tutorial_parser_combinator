@@ -1,4 +1,4 @@
-import { updateError, updateResult } from "./parser.helper";
+import { updateError, updateResult } from "./parsers.helper";
 
 export type ParserFn = (state: ParserState) => ParserState
 

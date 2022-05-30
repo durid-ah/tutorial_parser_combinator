@@ -1,8 +1,8 @@
-import { updateError, updateState } from "./parser.helper";
+import { updateError, updateState } from "./parsers.helper";
 import { Parser, ParserState } from "./parser.model";
 
 const lettersRegex = /^[A-Za-z]+/;
-export const letter = new Parser(
+export const letters = new Parser(
    (state: ParserState): ParserState => {
       const {index, target, isError} = state;
       if (isError) return state;
@@ -14,6 +14,6 @@ export const letter = new Parser(
       const regexMatch = slicedTarget.match(lettersRegex);
       if (regexMatch) 
          return updateState(state, index + regexMatch.length, regexMatch[0]);
-         
+
       return updateError(state, `letter: Couldn't match letters at index ${index}`);
    });
