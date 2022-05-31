@@ -1,8 +1,8 @@
-import { Parser, ParserState } from "./parser.model";
+import { Parser, State } from "./parser.model";
 import { updateError, updateResult } from "./parsers.helper";
 
 /** Match one or more instances of the parser */
-export const manyOne = (parser: Parser) => new Parser((state: ParserState): ParserState => {
+export const manyOne = (parser: Parser) => new Parser((state: State): State => {
    if (state.isError) return state;
    
    let next = state;

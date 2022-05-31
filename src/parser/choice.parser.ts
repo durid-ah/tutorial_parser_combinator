@@ -1,9 +1,9 @@
-import { Parser, ParserState } from "./parser.model";
+import { Parser, State } from "./parser.model";
 import { updateError } from "./parsers.helper";
 
 export const choice = (parsers: Parser[]) => 
    new Parser(
-      (state: ParserState): ParserState => {
+      (state: State): State => {
          if (state.isError) return state;
 
          for (let parser of parsers) {

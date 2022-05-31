@@ -1,9 +1,9 @@
 import { updateError, updateState } from "./parsers.helper";
-import { Parser, ParserState } from "./parser.model";
+import { Parser, State } from "./parser.model";
 
 const lettersRegex = /^[A-Za-z]+/;
 export const letters = new Parser<string>(
-   (state: ParserState<any>): ParserState<string> => {
+   (state: State<any>): State<string> => {
       const {index, target, isError} = state;
       if (isError) return state;
          

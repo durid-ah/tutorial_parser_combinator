@@ -1,16 +1,16 @@
-import { ParseResult, ParserState } from "./parser.model";
+import { ParseResult, State } from "./parser.model";
 
 export function updateState<T>(
-   state: ParserState<T>, index: number, result: T): ParserState<T> {
+   state: State<T>, index: number, result: T): State<T> {
    return { ...state, index,  result }
 };
 
 export function updateResult<R = ParseResult>(
-   state: ParserState, result: R): ParserState<R> {
+   state: State, result: R): State<R> {
    return { ...state, result };
 }
 
 export function updateError<R = ParseResult>(
-   state: ParserState<R>, error: string): ParserState<R> {
+   state: State<R>, error: string): State<R> {
    return {  ...state, isError: true,  error};
 }

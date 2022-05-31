@@ -1,10 +1,10 @@
 import { updateError, updateState } from "./parsers.helper";
-import { Parser, ParserState } from "./parser.model";
+import { Parser, State } from "./parser.model";
 import { sequenceOf } from "./sequence-of.parser";
 
 export const str = (s: string) => 
    new Parser(
-      (state: ParserState): ParserState => {
+      (state: State): State => {
          const {index, target, isError} = state;
          if (isError) return state;
             

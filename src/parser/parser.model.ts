@@ -1,20 +1,13 @@
 import { updateError, updateResult } from "./parsers.helper";
 
-export type ParserFn<R = ParseResult> = (state: ParserState<any>) => ParserState<R>;
-
-export type ParseResult = string | string[]; 
-
-export type ParserState<R = ParseResult> = {
-   target: string, 
-   result: R,
-   index: number,
-   error?: string
-   isError: boolean
-}
-
 export class Parser<T = ParseResult> {
    constructor(public parserStateTransfromerFn: ParserFn<T>) {}
 
+   /**
+    * Execute the parser against a specific string
+    * @param target the string you want to run the parser against
+    * @returns 
+    */
    run(target: string) {
       const initial = { target, index: 0, result: null, isError: false };
       return this.parserStateTransfromerFn(initial);
@@ -27,9 +20,9 @@ export class Parser<T = ParseResult> {
     */
    chain<R = ParseResult>(fn: (res: T) => Parser<R>): Parser<R> {
       
-      return new Parser<R>((state: ParserState<any>): ParserState<R> => {
+      return new Parser<R>((state: State<any>): State<R> => {
          // Before we chain we need to run the current parser for a result
-         const next: ParserState<T> = this.parserStateTransfromerFn(state); // TODO: Fix the any type
+         const next: State<T> = this.parserStateTransfromerFn(state); // TODO: Fix the any type
          // If there is an error prevent the chaining from running
          if (next.isError) return (next as any); 
 
@@ -45,7 +38,7 @@ export class Parser<T = ParseResult> {
     */
    map<R = ParseResult>(fn: (res: T) => R): Parser<R> {
       
-      return new Parser<R>((state: ParserState<any>): ParserState<R> => {
+      return new Parser<R>((state: State<any>): State<R> => {
          // TODO: Fix the any type
          const next: any = this.parserStateTransfromerFn(state);
          if (next.isError) return next; 
@@ -54,12 +47,29 @@ export class Parser<T = ParseResult> {
       });
    }
 
-   mapError(fn: (err: string, idx: number) => string) {
-      return new Parser((state: ParserState) => {
+   /**
+    * Map the error from one string value to another
+    * @param fn the mapping function
+    * @returns a parser with the specified error in case it fails
+    */
+   mapError(fn: (err: string, idx: number) => string): Parser<T> {
+      return new Parser((state: State) => {
          const next = this.parserStateTransfromerFn(state);
          if (!next.isError) return next;
 
          return updateError(next, fn(next.error, next.index));
       });
    }
+}
+
+export type ParserFn<R = ParseResult> = (state: State<any>) => State<R>;
+
+export type ParseResult = string | string[]; 
+
+export type State<R = ParseResult> = {
+   target: string, 
+   result: R,
+   index: number,
+   error?: string
+   isError: boolean
 }

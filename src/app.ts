@@ -74,4 +74,5 @@ const parser = sequenceOf([letters, str(':')])
    });
 
    console.log(parser.run('string:hello'));
-   console.log(parser.run('string:hello'));
+   console.log(parser.run('number:42'));
+   console.log(parser.run('number:s'));
