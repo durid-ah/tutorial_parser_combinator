@@ -1,6 +1,6 @@
 import { updateError, updateResult } from "./parsers.helper";
 
-export class Parser<T = ParseResult> {
+export class Parser<T = Result> {
    constructor(public parserStateTransfromerFn: ParserFn<T>) {}
 
    /**
@@ -18,7 +18,7 @@ export class Parser<T = ParseResult> {
     * @param fn a method that takes in the previous state's result value
     * @returns a new parser
     */
-   chain<R = ParseResult>(fn: (res: T) => Parser<R>): Parser<R> {
+   chain<R = Result>(fn: (res: T) => Parser<R>): Parser<R> {
       
       return new Parser<R>((state: State<any>): State<R> => {
          // Before we chain we need to run the current parser for a result
@@ -36,7 +36,7 @@ export class Parser<T = ParseResult> {
     * @param fn a function that takes in the previous result
     * @returns return a parser with the new result
     */
-   map<R = ParseResult>(fn: (res: T) => R): Parser<R> {
+   map<R = Result>(fn: (res: T) => R): Parser<R> {
       
       return new Parser<R>((state: State<any>): State<R> => {
          // TODO: Fix the any type
@@ -62,11 +62,11 @@ export class Parser<T = ParseResult> {
    }
 }
 
-export type ParserFn<R = ParseResult> = (state: State<any>) => State<R>;
+export type ParserFn<R = Result> = (state: State<any>) => State<R>;
 
-export type ParseResult = string | string[]; 
+export type Result = string | string[]; 
 
-export type State<R = ParseResult> = {
+export type State<R = Result> = {
    target: string, 
    result: R,
    index: number,
