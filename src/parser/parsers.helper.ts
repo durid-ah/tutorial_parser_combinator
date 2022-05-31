@@ -1,7 +1,7 @@
 import { ParseResult, ParserState } from "./parser.model";
 
-export function updateState(
-   state: ParserState, index: number, result: ParseResult): ParserState {
+export function updateState<T>(
+   state: ParserState<T>, index: number, result: T): ParserState<T> {
    return { ...state, index,  result }
 };
 
