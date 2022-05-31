@@ -20,19 +20,31 @@ export class Parser<T = ParseResult> {
       return this.parserStateTransfromerFn(initial);
    }
 
-   chain<R = ParseResult>(fn: (res: ParserState<T>) => Parser<R>): Parser<R> {
+   /**
+    * Chain a new parser to the exisiting one 
+    * @param fn a method that takes in the previous state's result value
+    * @returns a new parser
+    */
+   chain<R = ParseResult>(fn: (res: T) => Parser<R>): Parser<R> {
+      
       return new Parser<R>((state: ParserState<any>): ParserState<R> => {
          // Before we chain we need to run the current parser for a result
          const next: ParserState<T> = this.parserStateTransfromerFn(state); // TODO: Fix the any type
          // If there is an error prevent the chaining from running
          if (next.isError) return (next as any); 
 
-         const nextParser = fn(next);
+         const nextParser = fn(next.result);
          return nextParser.parserStateTransfromerFn(next)
       });
    }
 
+   /**
+    * Map the result from the previous parser to a new one
+    * @param fn a function that takes in the previous result
+    * @returns return a parser with the new result
+    */
    map<R = ParseResult>(fn: (res: T) => R): Parser<R> {
+      
       return new Parser<R>((state: ParserState<any>): ParserState<R> => {
          // TODO: Fix the any type
          const next: any = this.parserStateTransfromerFn(state);

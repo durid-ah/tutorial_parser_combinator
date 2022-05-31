@@ -23,9 +23,9 @@ import { between, choice, digits, letters, sequenceOf, str } from "./parser";
 // console.log(parser_5.run('1234'));
 // console.log(parser_5.run('asde'));
 
-const parser_6 = digits;
-console.log(parser_6.run('1234'));
-console.log(parser_6.run('asde'));
+// const parser_6 = digits;
+// console.log(parser_6.run('1234'));
+// console.log(parser_6.run('asde'));
 
 // const seq_parser = sequenceOf([digits, letters, digits])
 // console.log(seq_parser.run('12123asdasfas12312'));
@@ -46,14 +46,14 @@ const stringParser = letters.map<Res<string>>(result => ({
 }));
 
 // "number:42"
-const numberParser = digits.map(result => ({
+const numberParser = digits.map<Res<Number>>(result => ({
    type: 'number',
    value: Number(result)
 }));
 
 // "diceroll:2d8"
 const diceroll = sequenceOf([digits, str('d'), digits])
-   .map(([n, _, s]) => ({
+   .map<Res<number[]>>(([n, _, s]) => ({
    type: 'diceroll',
    value: [Number(n), Number(s)]
 }));
@@ -61,11 +61,11 @@ const diceroll = sequenceOf([digits, str('d'), digits])
 
 const parser = sequenceOf([letters, str(':')])
    .map(res => res[0])
-   .chain<any>(state => {
-      const type: string =  (state.result as any).type;
+   .chain<any>(type => {
+      console.log(type);
       switch (type) {
-         // case 'string':
-         //    return stringParser;      
+         case 'string':
+            return stringParser;      
          case 'number':
             return numberParser;
          default:
@@ -73,6 +73,5 @@ const parser = sequenceOf([letters, str(':')])
       }
    });
 
-sequenceOf([
-   
-])
+   console.log(parser.run('string:hello'));
+   console.log(parser.run('string:hello'));
