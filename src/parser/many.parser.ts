@@ -10,9 +10,10 @@ export const many = (parser: Parser) => new Parser((state: ParserState): ParserS
    let done = false;
 
    while(!done) {
-      next = parser.parserStateTransfromerFn(next);
+      let testState = parser.parserStateTransfromerFn(next);
       if (!next.isError) {
          results.push(next.result);
+         next = testState;
       } else {
          done = true;
       }
