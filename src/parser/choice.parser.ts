@@ -1,8 +1,8 @@
 import { Parser, State } from "./parser.model";
 import { updateError } from "./parsers.helper";
 
-export const choice = (parsers: Parser[]) => 
-   new Parser(
+export function choice(parsers: Parser[]) {
+   return new Parser(
       (state: State): State => {
          if (state.isError) return state;
 
@@ -14,4 +14,6 @@ export const choice = (parsers: Parser[]) =>
          return updateError(
             state, 
             `choice: Unable to match with any parser at index ${state.index}`);
-      });
+      }
+   );
+}
