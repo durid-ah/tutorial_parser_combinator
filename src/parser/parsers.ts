@@ -3,8 +3,8 @@ import { Parser, State } from "./parser.model";
 import { sequenceOf } from "./sequence-of.parser";
 
 export const str = (s: string) => 
-   new Parser(
-      (state: State): State => {
+   new Parser<string>(
+      (state: State<string>): State<string> => {
          const {index, target, isError} = state;
          if (isError) return state;
             

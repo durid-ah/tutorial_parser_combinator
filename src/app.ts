@@ -1,4 +1,5 @@
 import { between, choice, digits, letters, sequenceOf, str } from "./parser";
+import { sepBy } from "./parser/sepBy.parser";
 
 // const parser = str('hello there!');
 // console.log(parser.run('hello there!'));
@@ -73,6 +74,12 @@ const parser = sequenceOf([letters, str(':')])
       }
    });
 
-   console.log(parser.run('string:hello'));
-   console.log(parser.run('number:42'));
-   console.log(parser.run('number:s'));
+// console.log(parser.run('string:hello'));
+// console.log(parser.run('number:42'));
+// console.log(parser.run('number:s'));
+
+const betweenSquareBrackets = between(str('['), str(']'));
+const commaSeparated = sepBy(str(','));
+const arrayParser = betweenSquareBrackets(commaSeparated(digits));
+
+console.log(arrayParser.run('[1,2,3,4]'));
