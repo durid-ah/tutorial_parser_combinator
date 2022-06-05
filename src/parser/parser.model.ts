@@ -64,8 +64,8 @@ export class Parser<T = Result> {
 
 export type ParserFn<R = Result> = (state: State<any>) => State<R>;
 
-export type Result = string | string[]; 
-
+export type Thunk<R = Result> = () => Parser<R>;
+export type Result = string | string[];
 export type State<R = Result> = {
    target: string, 
    result: R,
