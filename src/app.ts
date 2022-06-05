@@ -1,5 +1,5 @@
 import { between, choice, digits, letters, sequenceOf, str } from "./parser";
-import { sepBy } from "./parser/sepBy.parser";
+import { sepBy } from "./parser/sep-by.parser";
 
 // const parser = str('hello there!');
 // console.log(parser.run('hello there!'));
@@ -83,3 +83,5 @@ const commaSeparated = sepBy(str(','));
 const arrayParser = betweenSquareBrackets(commaSeparated(digits));
 
 console.log(arrayParser.run('[1,2,3,4]'));
+
+console.log(arrayParser.run('[1,[2,[3],4], 5]'));
