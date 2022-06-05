@@ -18,6 +18,8 @@ export const str = (s: string) =>
          return updateError(state, `str: Tried to match ${s}, but got "${target.slice(index, index + 10)}"`);
       });
 
-export const between = (left: Parser, right: Parser) => (content: Parser) => sequenceOf([
-   left, content, right
-]).map(results => results[1])
+export function between(left: Parser, right: Parser) {
+   return (content: Parser) => 
+      sequenceOf([left, content, right])
+         .map(results => results[1]);
+}
