@@ -1,7 +1,7 @@
 import { Parser, State, updateResult } from ".";
 
 export function sepBy(separator: Parser<string>) { 
-   (value: Parser) => new Parser(
+   return (value: Parser) => new Parser(
       (state: State<any>) => { 
          const results = [];
          let nextState = state;
