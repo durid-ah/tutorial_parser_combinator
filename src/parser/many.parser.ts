@@ -1,5 +1,4 @@
-import { Parser, State } from "./parser.model";
-import { updateResult } from "./parsers.helper";
+import { Parser, State, updateResult } from ".";
 
 /** Match zero or more instances of the parser */
 export function many<T>(parser: Parser<T>) {

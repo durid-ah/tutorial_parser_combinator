@@ -1,4 +1,4 @@
-import { updateError, updateResult } from "./parsers.helper";
+import { updateError, updateResult } from ".";
 
 export class Parser<T = Result> {
    constructor(public parserStateTransfromerFn: ParserFn<T>) {}

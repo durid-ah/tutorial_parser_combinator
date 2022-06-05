@@ -1,5 +1,4 @@
-import { Parser, State } from "./parser.model";
-import { updateError, updateResult } from "./parsers.helper";
+import { Parser, State, updateError, updateResult } from ".";
 
 export const sepByOne = (separator: Parser<string>) => 
    (value: Parser) => new Parser(

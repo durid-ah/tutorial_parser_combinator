@@ -1,4 +1,4 @@
-import { Parser, Thunk, Result, State } from "./parser.model";
+import { Parser, Thunk, Result, State } from ".";
 
 export function lazy<R = Result>(parserThunk: Thunk<R>): Parser<R> { 
    return new Parser<R>(

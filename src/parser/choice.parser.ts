@@ -1,5 +1,4 @@
-import { Parser, Result, State } from "./parser.model";
-import { updateError } from "./parsers.helper";
+import { Parser, Result, State, updateError } from ".";
 
 export function choice<R = Result>(parsers: Parser<R>[]) {
    return new Parser(

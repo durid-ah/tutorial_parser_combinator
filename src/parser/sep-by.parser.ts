@@ -1,7 +1,6 @@
-import { Parser, Result, State } from "./parser.model";
-import { updateResult } from "./parsers.helper";
+import { Parser, State, updateResult } from ".";
 
-export const sepBy = (separator: Parser<string>) => 
+export function sepBy(separator: Parser<string>) { 
    (value: Parser) => new Parser(
       (state: State<any>) => { 
          const results = [];
@@ -21,4 +20,6 @@ export const sepBy = (separator: Parser<string>) =>
          }
 
          return updateResult(nextState, results);
-      });
+      }
+   );
+}

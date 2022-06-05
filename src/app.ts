@@ -1,6 +1,4 @@
-import { between, choice, digits, letters, sequenceOf, str } from "./parser";
-import { lazy } from "./parser/lazy.parser";
-import { sepBy } from "./parser/sep-by.parser";
+import { between, choice, digits, letters, lazy, sequenceOf, sepBy, str } from "./parser";
 
 // const parser = str('hello there!');
 // console.log(parser.run('hello there!'));

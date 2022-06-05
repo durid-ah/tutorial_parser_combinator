@@ -1,5 +1,4 @@
-import { updateError, updateState } from "./parsers.helper";
-import { Parser, State } from "./parser.model";
+import { updateError, updateState, Parser, State } from ".";
 
 const lettersRegex = /^[A-Za-z]+/;
 export const letters = new Parser<string>(

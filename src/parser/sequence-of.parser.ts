@@ -1,5 +1,4 @@
-import { Parser, State } from "./parser.model";
-import { updateResult } from "./parsers.helper";
+import { Parser, State, updateResult } from ".";
 
 export function sequenceOf(parsers: Parser[]) { 
    return new Parser<string[]>(

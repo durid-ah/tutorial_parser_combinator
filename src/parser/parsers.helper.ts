@@ -1,4 +1,4 @@
-import { Result, State } from "./parser.model";
+import { Result, State } from ".";
 
 export function updateState<T>(state: State<T>, index: number, result: T): State<T> {
    return { ...state, index,  result }

@@ -1,9 +1,7 @@
-import { updateError, updateState } from "./parsers.helper";
-import { Parser, State } from "./parser.model";
-import { sequenceOf } from "./sequence-of.parser";
+import { Parser, State, updateError, updateState } from ".";
 
-export const str = (s: string) => 
-   new Parser<string>(
+export function str(s: string) { 
+   return new Parser<string>(
       (state: State<string>): State<string> => {
          const {index, target, isError} = state;
          if (isError) return state;
@@ -17,9 +15,4 @@ export const str = (s: string) =>
             
          return updateError(state, `str: Tried to match ${s}, but got "${target.slice(index, index + 10)}"`);
       });
-
-export function between(left: Parser, right: Parser) {
-   return (content: Parser) => 
-      sequenceOf([left, content, right])
-         .map(results => results[1]);
 }

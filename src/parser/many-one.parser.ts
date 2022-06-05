@@ -1,5 +1,4 @@
-import { Parser, State } from "./parser.model";
-import { updateError, updateResult } from "./parsers.helper";
+import { Parser, State, updateError, updateResult } from ".";
 
 /** Match one or more instances of the parser */
 export const manyOne = (parser: Parser) => new Parser((state: State): State => {

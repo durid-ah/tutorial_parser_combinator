@@ -1,6 +1,5 @@
 import { evaluate } from "./evaluator";
-import { between, choice, digits, sequenceOf, str } from "./parser";
-import { lazy } from "./parser/lazy.parser";
+import { between, choice, digits, sequenceOf, str, lazy } from "./parser";
 
 export type LangRes = NumberRes | OperationRes;
 
