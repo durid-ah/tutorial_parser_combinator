@@ -99,6 +99,6 @@ export class Parser<T1 = string, T2 = string, E1 = string> {
  */
 export type ChainFn<T, R, E> = (res: Result<T, E>) => Parser<T, R, E>
 
+/** A function type to lazy create a parser */
+export type Thunk<T, R, E> = () => Parser<T, R, E>;
 export type ParserFn<T1 = string, T2 = string, E1 = string> = (state: State<T1, E1>) => State<T2, E1>;
-
-export type Thunk<R = string> = () => Parser<R>;

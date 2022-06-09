@@ -3,14 +3,18 @@ import { ERR_RESULT, OK_RESULT } from "./parser.model";
 import type { State } from "./parser.model";
 import type { ResultType } from "./result-type.model";
 
-/** Result discriminated union */
+/** 
+ * Result discriminated union of `ResOk` and `ResError` 
+ **/
 export type Result<R = string, E = string> = ResOk<R> | ResError<E>;
 
+/** data of a successful parser state */
 export type ResOk<R> = {
    resType: 'ok',
    result: ResultType<R>
 }
 
+/** data of an error state */
 export type ResError<E> = {
    resType: 'error',
    error: E
