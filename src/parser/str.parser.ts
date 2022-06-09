@@ -1,5 +1,4 @@
 import { Parser, State, updateError, updateState } from ".";
-import { ERR_RESULT } from "./models/parser.model";
 import { newOne } from "./models/result-type.model";
 import { newErr, newOk, ResError } from "./models/result.model";
 
