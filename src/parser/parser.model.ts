@@ -1,30 +1,45 @@
 import { updateError, updateResult } from ".";
+import { mapOk } from "./parsers.helper";
 
-export class Parser<T = Result> {
-   constructor(public parserStateTransfromerFn: ParserFn<T>) {}
+export const OK_RESULT = "ok";
+export const ERR_RESULT = "error";
+
+/**
+ * @param T1 - previous result type
+ * @param T2 - current result type
+ * @param E1 - error type
+ * @param E2 - new error type
+ */
+export class Parser<T1 = string, T2 = string, E1 = string> {
+   constructor(public parserStateTransfromerFn?: ParserFn<T1, T2, E1>) {}
 
    /**
     * Execute the parser against a specific string
     * @param target the string you want to run the parser against
-    * @returns 
+    * @returns the state of the executed parser
     */
-   run(target: string) {
+   run(target: string): State<T2, E1> {
       const initial = { target, index: 0, result: null, isError: false };
       return this.parserStateTransfromerFn(initial);
    }
 
    /**
-    * Chain a new parser to the exisiting one 
+    * Chain a new parser to the exisiting one
+    * @typeparam `<S = string>` the result type of the chained parser
     * @param fn a method that takes in the previous state's result value
     * @returns a new parser
     */
-   chain<R = Result>(fn: (res: T) => Parser<R>): Parser<R> {
+   chain<S = string>(fn: ChainFn<T2, S, E1>): Parser<T1, S, E1> {
       
-      return new Parser<R>((state: State<any>): State<R> => {
+      return new Parser<T1,S, E1>((state: State<T1, E1>): State<S, E1> => {
          // Before we chain we need to run the current parser for a result
-         const next: State<T> = this.parserStateTransfromerFn(state); // TODO: Fix the any type
+         const next: State<T2, E1> = this.parserStateTransfromerFn(state); 
+         
          // If there is an error prevent the chaining from running
-         if (next.isError) return (next as any); 
+         if (next.result.resType === ERR_RESULT) {
+            next.result = null;
+            return (next as unknown as State<S, E1>);
+         }
 
          const nextParser = fn(next.result);
          return nextParser.parserStateTransfromerFn(next)
@@ -33,17 +48,17 @@ export class Parser<T = Result> {
 
    /**
     * Map the result from the previous parser to a new one
-    * @param fn a function that takes in the previous result
-    * @returns return a parser with the new result
+    * @typeparam S - the result type of the chained parser
+    * @param fn - a function that takes in the previous result
+    * @returns a parser with the new result
     */
-   map<R = Result>(fn: (res: T) => R): Parser<R> {
+   map<S = string>(fn: (res: ResOk<T2>) => ResOk<S>): Parser<T1, S, E1> {
       
-      return new Parser<R>((state: State<any>): State<R> => {
-         // TODO: Fix the any type
+      return new Parser<T1, S, E1>((state: State<T1, E1>): State<S, E1> => {
          const next: any = this.parserStateTransfromerFn(state);
-         if (next.isError) return next; 
+         if (next.isError) return next;
 
-         return updateResult<R>(next, fn(next.result));
+         return updateResult<S, E1>(next, fn(next.result));
       });
    }
 
@@ -52,24 +67,66 @@ export class Parser<T = Result> {
     * @param fn the mapping function
     * @returns a parser with the specified error in case it fails
     */
-   mapError(fn: (err: string, idx: number) => string): Parser<T> {
-      return new Parser((state: State) => {
-         const next = this.parserStateTransfromerFn(state);
-         if (!next.isError) return next;
+   mapError<E2 = string>(fn: (err: ResError<E1>, idx: number) => ResError<E2>): Parser<T1, T2, E2> {
+      
+      return new Parser<T1,T2,E2>((state: State<T1, E2>): State<T2, E2> => {
+         const next = this.parserStateTransfromerFn(
+            { index: state.index, target: state.target, result: null });
 
-         return updateError(next, fn(next.error, next.index));
+         if (next.result.resType !== ERR_RESULT) return mapOk(next);
+
+         return updateError<T2, E1, E2>(next, fn(next.result, next.index));
       });
    }
 }
 
-export type ParserFn<R = Result> = (state: State<any>) => State<R>;
+/**
+ * The method used to chain a parser to the next one
+ * @param T - previous type
+ * @param R - current type
+ * @param E - error type
+ */
+export type ChainFn<T, R, E> = (res: Result<T, E>) => Parser<T, R, E>
 
-export type Thunk<R = Result> = () => Parser<R>;
-export type Result = string | string[];
-export type State<R = Result> = {
-   target: string, 
-   result: R,
+export type ParserFn<T1 = string, T2 = string, E1 = string> = (state: State<T1, E1>) => State<T2, E1>;
+
+
+
+export type Thunk<R = string> = () => Parser<R>;
+
+/**
+ * The parser's state
+ * @param R - result value type
+ * @param E - error value type
+ */
+export type State<R = string, E = string> = {
    index: number,
-   error?: string
-   isError: boolean
+   target: string, 
+   result: Result<R, E>
+}
+
+/** Result type discriminated union */
+export type ResultType<T = string> = One<T> | Many<T>;
+
+export type One<T> = {
+   resType: 'one',
+   value: T
+}
+
+export type Many<T> = {
+   resType: 'many',
+   value: T[]
+}
+
+/** Result discriminated union */
+export type Result<R = string, E = string> = ResOk<R> | ResError<E>;
+
+export type ResOk<R> = {
+   resType: 'ok',
+   result: ResultType<R>
+}
+
+export type ResError<E> = {
+   resType: 'error',
+   error: E
 }
