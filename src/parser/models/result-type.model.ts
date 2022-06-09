@@ -11,3 +11,7 @@ export type Many<T> = {
    resType: 'many',
    value: T[]
 }
+
+export function newOne<T>(val: T): One<T> {
+   return { resType: 'one', value: val}
+}
