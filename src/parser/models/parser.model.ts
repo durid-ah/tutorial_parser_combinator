@@ -1,5 +1,5 @@
-import { updateError, updateResult } from ".";
-import { mapOk } from "./parsers.helper";
+import { updateError, updateResult } from "..";
+import { mapOk, ResError, ResOk, Result } from "./result.model";
 
 export const OK_RESULT = "ok";
 export const ERR_RESULT = "error";
@@ -81,6 +81,17 @@ export class Parser<T1 = string, T2 = string, E1 = string> {
 }
 
 /**
+ * The parser's state
+ * @param R - result value type
+ * @param E - error value type
+ */
+ export type State<R = string, E = string> = {
+   index: number,
+   target: string, 
+   result: Result<R, E>
+}
+
+/**
  * The method used to chain a parser to the next one
  * @param T - previous type
  * @param R - current type
@@ -90,43 +101,4 @@ export type ChainFn<T, R, E> = (res: Result<T, E>) => Parser<T, R, E>
 
 export type ParserFn<T1 = string, T2 = string, E1 = string> = (state: State<T1, E1>) => State<T2, E1>;
 
-
-
 export type Thunk<R = string> = () => Parser<R>;
-
-/**
- * The parser's state
- * @param R - result value type
- * @param E - error value type
- */
-export type State<R = string, E = string> = {
-   index: number,
-   target: string, 
-   result: Result<R, E>
-}
-
-/** Result type discriminated union */
-export type ResultType<T = string> = One<T> | Many<T>;
-
-export type One<T> = {
-   resType: 'one',
-   value: T
-}
-
-export type Many<T> = {
-   resType: 'many',
-   value: T[]
-}
-
-/** Result discriminated union */
-export type Result<R = string, E = string> = ResOk<R> | ResError<E>;
-
-export type ResOk<R> = {
-   resType: 'ok',
-   result: ResultType<R>
-}
-
-export type ResError<E> = {
-   resType: 'error',
-   error: E
-}
