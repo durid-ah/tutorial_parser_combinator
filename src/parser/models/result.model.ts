@@ -20,6 +20,14 @@ export type ResError<E> = {
    error: E
 }
 
+export function newOk<R>(ok: ResultType<R>): ResOk<R> {
+   return { resType: OK_RESULT, result: ok }
+}
+
+export function newErr<E>(err: E): ResError<E> {
+   return { resType: ERR_RESULT, error: err }
+}
+
 export function mapOk<T, E1, E2>(state: State<T, E1>): State<T, E2> {
       
    if (state.result.resType === OK_RESULT) {
