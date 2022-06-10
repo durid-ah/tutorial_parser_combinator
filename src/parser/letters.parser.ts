@@ -10,8 +10,7 @@ export function letters<T>(){
          if (result.resType === ERR_RESULT) return mapErr(state);
 
          const slicedTarget = target.slice(index);
-         if (slicedTarget.length === 0)
-         {
+         if (slicedTarget.length === 0) {
             const err = newErr(`letter: Unexpected end of input`);
             return {...state, result: err};
          }
