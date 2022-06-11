@@ -1,7 +1,8 @@
-import { LangRes, Operation } from "./example-language";
+import { LangRes, NumberRes, Operation, OperationRes } from "./example-language";
 
 
-export const evaluate = (node: LangRes) => {
+export const evaluate = (nodeRes: LangRes) => {
+   const node = nodeRes as NumberRes | OperationRes;
    if (node.type === 'number') {
       return node.value;
    }

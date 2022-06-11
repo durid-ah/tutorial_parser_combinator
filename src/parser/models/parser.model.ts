@@ -1,5 +1,5 @@
 import { updateError, updateResult } from "..";
-import { mapOk, ResError, ResOk, Result } from "./result.model";
+import { mapErr, mapOk, newOk, ResError, ResOk, Result } from "./result.model";
 
 export const OK_RESULT = "ok";
 export const ERR_RESULT = "error";
@@ -19,7 +19,7 @@ export class Parser<T1 = string, T2 = string, E1 = string> {
     * @returns the state of the executed parser
     */
    run(target: string): State<T2, E1> {
-      const initial = { target, index: 0, result: null, isError: false };
+      const initial = { target, index: 0, result: newOk<T1>(null) };
       return this.parserStateTransfromerFn(initial);
    }
 
@@ -55,10 +55,10 @@ export class Parser<T1 = string, T2 = string, E1 = string> {
    map<S = string>(fn: (res: ResOk<T2>) => ResOk<S>): Parser<T1, S, E1> {
       
       return new Parser<T1, S, E1>((state: State<T1, E1>): State<S, E1> => {
-         const next: any = this.parserStateTransfromerFn(state);
-         if (next.isError) return next;
+         const next = this.parserStateTransfromerFn(state);
+         if (next.result.resType === ERR_RESULT) return mapErr(next);
 
-         return updateResult<S, E1>(next, fn(next.result));
+         return { ...next, result: fn(next.result) };
       });
    }
 

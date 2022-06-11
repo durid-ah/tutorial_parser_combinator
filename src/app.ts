@@ -1,8 +1,8 @@
 import { between, digits, letters, sequenceOf, sepBy, str } from "./parser";
 
-// const parser = str('hello there!');
-// console.log(parser.run('hello there!'));
-// console.log(parser.run('This is not correct'));
+const parser = str('hello there!');
+console.log(parser.run('hello there!'));
+console.log(parser.run('This is not correct'));
 
 // const parser_2 = sequenceOf([str('hello there!'), str('goodbye there!')]);
 // console.log(parser_2.run('hello there!goodbye there!'));
@@ -37,56 +37,56 @@ import { between, digits, letters, sequenceOf, sepBy, str } from "./parser";
 // const parser = betweenBrackets(letters);
 // console.log(parser.run('(1)'));
 
-type Res<T> = { type: string, value: T };
+// type Res<T> = { type: string, value: T };
 
 // "string:hello"
-const stringParser = letters.map<Res<string>>(result => ({
-   type: 'string',
-   value: result
-}));
+// const stringParser = letters.map<Res<string>>(result => ({
+//    type: 'string',
+//    value: result
+// }));
 
 // "number:42"
-const numberParser = digits.map<Res<Number>>(result => ({
-   type: 'number',
-   value: Number(result)
-}));
+// const numberParser = digits.map<Res<Number>>(result => ({
+//    type: 'number',
+//    value: Number(result)
+// }));
 
 // "diceroll:2d8"
-const diceroll = sequenceOf([digits, str('d'), digits])
-   .map<Res<number[]>>(([n, _, s]) => ({
-   type: 'diceroll',
-   value: [Number(n), Number(s)]
-}));
+// const diceroll = sequenceOf([digits, str('d'), digits])
+//    .map<Res<number[]>>(([n, _, s]) => ({
+//    type: 'diceroll',
+//    value: [Number(n), Number(s)]
+// }));
 
 
-const parser = sequenceOf([letters, str(':')])
-   .map(res => res[0])
-   .chain<any>(type => {
-      console.log(type);
-      switch (type) {
-         case 'string':
-            return stringParser;      
-         case 'number':
-            return numberParser;
-         default:
-            return diceroll;
-      }
-   });
+// const parser = sequenceOf([letters, str(':')])
+//    .map(res => res[0])
+//    .chain<any>(type => {
+//       console.log(type);
+//       switch (type) {
+//          case 'string':
+//             return stringParser;      
+//          case 'number':
+//             return numberParser;
+//          default:
+//             return diceroll;
+//       }
+//    });
 
 // console.log(parser.run('string:hello'));
 // console.log(parser.run('number:42'));
 // console.log(parser.run('number:s'));
 
-const betweenSquareBrackets = between(str('['), str(']'));
-const commaSeparated = sepBy(str(','));
+// const betweenSquareBrackets = between(str('['), str(']'));
+// const commaSeparated = sepBy(str(','));
 
 // const value = lazy(() => choice([
 //    digits, arrayParser
 // ]));
 
 
-const arrayParser = betweenSquareBrackets(commaSeparated(digits));
+// const arrayParser = betweenSquareBrackets(commaSeparated(digits));
 
-console.log(arrayParser.run('[1,2,3,4]'));
+// console.log(arrayParser.run('[1,2,3,4]'));
 
 // console.log(arrayParser.run('[1,[2,4],5]'));

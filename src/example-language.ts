@@ -1,12 +1,14 @@
 import { evaluate } from "./evaluator";
-import { between, choice, digits, sequenceOf, str, lazy } from "./parser";
+import { between, choice, digits, sequenceOf, str, lazy, Parser, OK_RESULT, ERR_RESULT } from "./parser";
+import { newOne } from "./parser/models/result-type.model";
+import { newOk, ResOk } from "./parser/models/result.model";
 
-export type LangRes = NumberRes | OperationRes;
+export type LangRes = NumberRes | OperationRes | string;
 
 export type Operation = {
-   op: string,
-   a: LangRes | string,
-   b: LangRes | string
+   op: LangRes,
+   a: LangRes,
+   b: LangRes 
 }
 
 export type NumberRes = {
@@ -19,50 +21,60 @@ export type OperationRes = {
    value: Operation
 }
 
-const betweenBrackets = between(str('('), str(')'));
+const betweenBrackets = between<LangRes, LangRes, string>(str('('), str(')'));
 
-const numberParser = digits.map<LangRes>(
-   res => ({
-   type: 'number',
-   value: Number(res)
-   })
-);
+const numberParser = digits<LangRes>()
+   .map<LangRes>(
+      res => newOk(newOne({ type: 'number', value: Number(res.result.value) }))
+   );
 
-const operatorParser = choice([
+const operatorParser = choice<LangRes, LangRes>([
    str('+'),
    str('-'),
    str('*'),
    str('/')
 ]);
 
-const expr = lazy(() => choice<LangRes | string>([
-   numberParser,
-   operationParser
-]));
+const expr: Parser<LangRes, LangRes, string> = lazy(
+   () => choice<LangRes, LangRes>([
+      numberParser,
+      operationParser
+   ])
+);
+
 
 const operationParser = betweenBrackets(
-   sequenceOf([
+   sequenceOf<LangRes,LangRes, string>([
       operatorParser,
       str(' '),
       expr,
       str(' '),
       expr,
    ])
-).map<LangRes>(results => ({
-   type: 'operation',
-   value: {
-      op: results[0],
-      a: results[2],
-      b: results[4]
-   }
-}));
+).map<LangRes>(res => {
+   console.log(res) // TODO: Remove
+   const results = res.result.value as LangRes[];
+   return newOk(
+      newOne({
+         type: 'operation',
+         value: {
+            op: results[0],
+            a: results[2],
+            b: results[4]
+         }
+      })
+   )
+
+}
+);
 
 const interpreter = (propgram: string) => {
-   const result = expr.run(program);
-   if (result.isError)
-      throw new Error('Invalid Program');
-
-   return evaluate(result.result)
+   const resultState = expr.run(program);
+   console.log((resultState.result as ResOk<any>).result.value);
+   // if (resultState.result.resType === ERR_RESULT)
+      // throw new Error('Invalid Program');
+// 
+   // return evaluate(resultState.result.result.value as LangRes)
 }
 
 const program = '(+ (* 10 2) (- (/ 50 3) 2))';
