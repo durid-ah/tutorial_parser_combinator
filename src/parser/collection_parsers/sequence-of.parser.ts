@@ -6,13 +6,13 @@ import { mapErr } from "../models/result.model";
  * Match the array of parsers that are passed in
  * @returns 
  */
-export function sequenceOf<T = string, R = string>(parsers: Parser<T, R>[]): Parser<T, R> { 
-   return new Parser<T, R>(
-      (state: State<T>): State<R> => {
+export function sequenceOf<T, R, E>(parsers: Parser<T, R, E>[]): Parser<T, R, E> { 
+   return new Parser<T, R, E>(
+      (state: State<T, E>): State<R, E> => {
          if (state.result.resType === ERR_RESULT) 
             return mapErr(state);
          const results: R[] = [];
-         let next: State<T> = state;
+         let next: State<T, E> = state;
          for (let parser of parsers) {
             const parserState = parser.parserStateTransfromerFn(next);
             next = {...parserState, result: null };
