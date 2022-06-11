@@ -1,4 +1,4 @@
-import { between, choice, digits, letters, lazy, sequenceOf, sepBy, str } from "./parser";
+import { between, digits, letters, sequenceOf, sepBy, str } from "./parser";
 
 // const parser = str('hello there!');
 // console.log(parser.run('hello there!'));
@@ -80,13 +80,13 @@ const parser = sequenceOf([letters, str(':')])
 const betweenSquareBrackets = between(str('['), str(']'));
 const commaSeparated = sepBy(str(','));
 
-const value = lazy(() => choice([
-   digits, arrayParser
-]));
+// const value = lazy(() => choice([
+//    digits, arrayParser
+// ]));
 
 
-const arrayParser = betweenSquareBrackets(commaSeparated(value));
+const arrayParser = betweenSquareBrackets(commaSeparated(digits));
 
 console.log(arrayParser.run('[1,2,3,4]'));
 
-console.log(arrayParser.run('[1,[2,4],5]'));
+// console.log(arrayParser.run('[1,[2,4],5]'));

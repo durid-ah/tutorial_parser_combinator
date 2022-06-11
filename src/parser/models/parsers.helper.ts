@@ -1,4 +1,3 @@
-import { ERR_RESULT, OK_RESULT } from "./parser.model";
 
 import type { ResError, ResOk, Result } from "./result.model";
 import type { State } from "..";

@@ -41,11 +41,7 @@ export function manyOne<T = string, R = string>(parser: Parser<T, R>): Parser<T,
          }
       
          return {
-            ...state, 
-            result: { 
-               resType: 'ok', 
-               result: res
-            } 
+            ...state, result: { resType: 'ok', result: res } 
          };
    });
 }
