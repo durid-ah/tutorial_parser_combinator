@@ -1,18 +1,26 @@
-import { Parser, Result, State, updateError } from ".";
+import { Parser, State } from ".";
+import { ERR_RESULT, OK_RESULT } from "./models/parser.model";
+import { mapErr, newErr } from "./models/result.model";
 
-export function choice<R = Result>(parsers: Parser<R>[]) {
-   return new Parser(
-      (state: State<any>): State<R> => {
-         if (state.isError) return state;
+
+/**
+ * Check to match the first one out of the list of parsers
+ * @param parsers 
+ * @returns 
+ */
+export function choice<T, R>(parsers: Parser<T, R>[]) {
+   return new Parser<T, R>(
+      (state: State<T>): State<R> => {
+         if (state.result.resType === ERR_RESULT) 
+            return mapErr<T,R, string>(state);
 
          for (let parser of parsers) {
             const next = parser.parserStateTransfromerFn(state);
-            if (!next.isError) return next;
+            if (next.result.resType === OK_RESULT) return next;
          }
 
-         return updateError(
-            state, 
-            `choice: Unable to match with any parser at index ${state.index}`);
+         const err = newErr(`choice: Unable to match with any parser at index ${state.index}`);
+         return {...state, result: err};
       }
    );
 }
