@@ -2,6 +2,10 @@ import { ERR_RESULT, Parser, State } from "../models/parser.model";
 import { Many } from "../models/result-type.model";
 import { mapErr } from "../models/result.model";
 
+/**
+ * Match the array of parsers that are passed in
+ * @returns 
+ */
 export function sequenceOf<T = string, R = string>(parsers: Parser<T, R>[]): Parser<T, R> { 
    return new Parser<T, R>(
       (state: State<T>): State<R> => {
