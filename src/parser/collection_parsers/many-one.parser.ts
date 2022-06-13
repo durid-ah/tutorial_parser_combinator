@@ -1,5 +1,5 @@
 import { ERR_RESULT, OK_RESULT, Parser, State } from "../models/parser.model";
-import { Cardinal, Many } from "../models/result-type.model";
+import { Cardinal, Many } from "../models/result-cardinal.model";
 import { mapErr, newErr, ResOk } from "../models/result.model";
 
 /**

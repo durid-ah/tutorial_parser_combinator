@@ -1,8 +1,5 @@
-import { updateError, updateResult } from "..";
-import { mapErr, mapOk, newOk, ResError, ResOk, Result } from "./result.model";
-
-export const OK_RESULT = "ok";
-export const ERR_RESULT = "error";
+import { updateError } from "..";
+import { mapErr, mapOk, newOk, ResError, ResOk, Result, ResultType } from "./result.model";
 
 /**
  * @param T1 - previous result type
@@ -36,7 +33,7 @@ export class Parser<T1 = string, T2 = string, E1 = string> {
          const next: State<T2, E1> = this.parserStateTransfromerFn(state); 
          
          // If there is an error prevent the chaining from running
-         if (next.result.resType === ERR_RESULT) {
+         if (next.result.resType === ResultType.Error) {
             next.result = null;
             return (next as unknown as State<S, E1>);
          }
@@ -56,7 +53,7 @@ export class Parser<T1 = string, T2 = string, E1 = string> {
       
       return new Parser<T1, S, E1>((state: State<T1, E1>): State<S, E1> => {
          const next = this.parserStateTransfromerFn(state);
-         if (next.result.resType === ERR_RESULT) return mapErr(next);
+         if (next.result.resType === ResultType.Error) return mapErr(next);
 
          return { ...next, result: fn(next.result) };
       });
@@ -73,7 +70,7 @@ export class Parser<T1 = string, T2 = string, E1 = string> {
          const next = this.parserStateTransfromerFn(
             { index: state.index, target: state.target, result: null });
 
-         if (next.result.resType !== ERR_RESULT) return mapOk(next);
+         if (next.result.resType !== ResultType.Error) return mapOk(next);
 
          return updateError<T2, E1, E2>(next, fn(next.result, next.index));
       });

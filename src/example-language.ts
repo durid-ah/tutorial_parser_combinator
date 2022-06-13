@@ -1,7 +1,7 @@
 import { evaluate } from "./evaluator";
-import { between, choice, digits, sequenceOf, str, lazy, Parser, OK_RESULT, ERR_RESULT } from "./parser";
-import { newOne } from "./parser/models/result-type.model";
-import { newOk, ResOk } from "./parser/models/result.model";
+import { between, choice, digits, sequenceOf, str, lazy, Parser } from "./parser";
+import { newOne } from "./parser/models/result-cardinal.model";
+import { newOk, ResOk, ResultType } from "./parser/models/result.model";
 
 export type LangRes = NumberRes | OperationRes | string;
 
@@ -69,7 +69,7 @@ const operationParser = betweenBrackets(
 
 const interpreter = (propgram: string) => {
    const resultState = expr.run(program);
-   if (resultState.result.resType === ERR_RESULT)
+   if (resultState.result.resType === ResultType.Error)
       throw new Error('Invalid Program');
 
    return evaluate(resultState.result.result.value as LangRes)

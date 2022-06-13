@@ -1,5 +1,5 @@
 import { ERR_RESULT, Parser, State } from "../models/parser.model";
-import { Cardinal } from "../models/result-type.model";
+import { Cardinal } from "../models/result-cardinal.model";
 
 /**
  * Create the parser that will match values between a specified parsed value

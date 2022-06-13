@@ -1,5 +1,5 @@
 import { ERR_RESULT, Parser, State } from "./models/parser.model";
-import { newOne } from "./models/result-type.model";
+import { newOne } from "./models/result-cardinal.model";
 import { mapErr, newErr, newOk } from "./models/result.model";
 
 const digitsRegex = /^[0-9]+/;

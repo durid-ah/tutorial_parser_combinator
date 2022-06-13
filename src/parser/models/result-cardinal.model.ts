@@ -1,6 +1,6 @@
 
 /** Result type discriminated union */
-export type ResultType<T = string> = One<T> | Many<T>;
+export type ResultCardinal<T = string> = One<T> | Many<T>;
 
 export type One<T> = {
    resType: Cardinal.One,

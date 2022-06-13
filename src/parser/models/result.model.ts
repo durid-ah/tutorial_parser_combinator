@@ -1,7 +1,5 @@
-import { ERR_RESULT, OK_RESULT } from "./parser.model";
-
 import type { State } from "./parser.model";
-import type { ResultType } from "./result-type.model";
+import type { ResultCardinal } from "./result-cardinal.model";
 
 /** 
  * Result discriminated union of `ResOk` and `ResError` 
@@ -10,27 +8,32 @@ export type Result<R = string, E = string> = ResOk<R> | ResError<E>;
 
 /** data of a successful parser state */
 export type ResOk<R> = {
-   resType: 'ok',
-   result: ResultType<R>
+   resType: ResultType.Ok,
+   result: ResultCardinal<R>
 }
 
 /** data of an error state */
 export type ResError<E> = {
-   resType: 'error',
+   resType: ResultType.Error,
    error: E
 }
 
-export function newOk<R>(ok: ResultType<R>): ResOk<R> {
-   return { resType: OK_RESULT, result: ok }
+export enum ResultType {
+   Ok,
+   Error
+}
+
+export function newOk<R>(ok: ResultCardinal<R>): ResOk<R> {
+   return { resType: ResultType.Ok, result: ok }
 }
 
 export function newErr<E>(err: E): ResError<E> {
-   return { resType: ERR_RESULT, error: err }
+   return { resType: ResultType.Error, error: err }
 }
 
 export function mapOk<T, E1, E2>(state: State<T, E1>): State<T, E2> {
       
-   if (state.result.resType === OK_RESULT) {
+   if (state.result.resType === ResultType.Ok) {
       return {...state, result: state.result}
    } else {
       throw new Error('Tried to map `Ok` type but instead got `Error`');
@@ -39,7 +42,7 @@ export function mapOk<T, E1, E2>(state: State<T, E1>): State<T, E2> {
 
 export function mapErr<T1, T2, E>(state: State<T1, E>): State<T2, E> {
       
-   if (state.result.resType === ERR_RESULT) {
+   if (state.result.resType === ResultType.Error) {
       return {...state, result: state.result}
    } else {
       throw new Error('Tried to map `Ok` type but instead got `Error`');

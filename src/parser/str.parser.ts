@@ -1,7 +1,6 @@
 import { Parser, State, updateError, updateState } from ".";
-import { ERR_RESULT } from "./models/parser.model";
-import { newOne } from "./models/result-type.model";
-import { newErr, newOk, ResError } from "./models/result.model";
+import { newOne } from "./models/result-cardinal.model";
+import { newErr, newOk, ResError, ResultType } from "./models/result.model";
 
 /**
  * @typeparam `<T = string>` the type of the preceeding state 
@@ -12,7 +11,7 @@ export function str<T = string>(s: string): Parser<T> {
    return new Parser<T>(
       ({index, target, result}: State<T>): State => {
          const state = {index, target, result: null};
-         if (result.resType === ERR_RESULT) return state;
+         if (result.resType === ResultType.Error) return state;
              
          const slicedTarget = target.slice(index);
          if (slicedTarget.length === 0) {

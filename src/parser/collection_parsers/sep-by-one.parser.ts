@@ -1,6 +1,6 @@
 import { Parser, State } from "..";
 import { ERR_RESULT } from "../models/parser.model";
-import { Cardinal } from "../models/result-type.model";
+import { Cardinal } from "../models/result-cardinal.model";
 import { newErr } from "../models/result.model";
 
 /**

@@ -1,6 +1,6 @@
-import { ERR_RESULT, Parser, State } from "../models/parser.model";
-import { Cardinal, Many } from "../models/result-type.model";
-import { mapErr } from "../models/result.model";
+import { Parser, State } from "../models/parser.model";
+import { Cardinal, Many } from "../models/result-cardinal.model";
+import { mapErr, ResultType } from "../models/result.model";
 
 /**
  * Create a parser that matches zero or more instances of the parser
@@ -11,7 +11,7 @@ import { mapErr } from "../models/result.model";
 export function many<T = string>(parser: Parser<T, T>): Parser<T, T> {
    return new Parser<T, T>(
       (state: State<T>): State<T> => {
-         if (state.result.resType === ERR_RESULT) 
+         if (state.result.resType === ResultType.Error) 
             return mapErr(state);
          
          const results: T[] = [];
@@ -21,7 +21,7 @@ export function many<T = string>(parser: Parser<T, T>): Parser<T, T> {
          while(!done) {
             const testState = parser.parserStateTransfromerFn(state);
             
-            if (testState.result.resType === ERR_RESULT) {
+            if (testState.result.resType === ResultType.Error) {
                done = true;
             } else if (testState.result.result.resType === Cardinal.One) {
                results.push(testState.result.result.value);
@@ -35,7 +35,7 @@ export function many<T = string>(parser: Parser<T, T>): Parser<T, T> {
          };
 
          return {
-            ...state, result: { resType: 'ok', result: res } 
+            ...state, result: { resType: ResultType.Ok, result: res } 
          };
       }
    );
