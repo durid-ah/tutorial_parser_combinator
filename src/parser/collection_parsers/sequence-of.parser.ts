@@ -1,6 +1,6 @@
 import { ERR_RESULT, Parser, State } from "../models/parser.model";
 import { Many } from "../models/result-type.model";
-import { mapErr } from "../models/result.model";
+import { mapErr, newOk } from "../models/result.model";
 
 /**
  * Match the array of parsers that are passed in
@@ -15,7 +15,6 @@ export function sequenceOf<T, R, E>(parsers: Parser<T, R, E>[]): Parser<T, R, E>
          let next: State<T, E> = state;
          for (let parser of parsers) {
             const parserState = parser.parserStateTransfromerFn(next);
-            next = {...parserState, result: null };
             
             if (parserState.result.resType === ERR_RESULT)
                return {...parserState}
@@ -23,6 +22,9 @@ export function sequenceOf<T, R, E>(parsers: Parser<T, R, E>[]): Parser<T, R, E>
                results.push(parserState.result.result.value)
             else
                results.push(...parserState.result.result.value)
+            
+            next = {...parserState, result: newOk(null)};
+
          }
 
          const res: Many<R> = {
