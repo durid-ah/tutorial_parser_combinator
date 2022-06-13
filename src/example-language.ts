@@ -70,11 +70,10 @@ const operationParser = betweenBrackets(
 
 const interpreter = (propgram: string) => {
    const resultState = expr.run(program);
-   console.log((resultState.result as ResOk<any>).result.value);
-   // if (resultState.result.resType === ERR_RESULT)
-      // throw new Error('Invalid Program');
-// 
-   // return evaluate(resultState.result.result.value as LangRes)
+   if (resultState.result.resType === ERR_RESULT)
+      throw new Error('Invalid Program');
+
+   return evaluate(resultState.result.result.value as LangRes)
 }
 
 const program = '(+ (* 10 2) (- (/ 50 3) 2))';

@@ -1,12 +1,18 @@
 import { between, digits, letters, sequenceOf, sepBy, str } from "./parser";
 
-const parser = str('hello there!');
-console.log(parser.run('hello there!'));
-console.log(parser.run('This is not correct'));
+// const parser = str('hello there!');
+// console.log(parser.run('hello there!'));
+// console.log(parser.run('This is not correct'));
 
 // const parser_2 = sequenceOf([str('hello there!'), str('goodbye there!')]);
 // console.log(parser_2.run('hello there!goodbye there!'));
+// console.log('#######################################');
+// console.log('PART TWO:');
+// console.log('#######################################');
 // console.log(parser_2.run('hello there!goodbye there'));
+// console.log('#######################################');
+// console.log('PART THREE:');
+// console.log('#######################################');
 // console.log(parser_2.run(''));
 
 // const parser_3 = parser.map(res => {
