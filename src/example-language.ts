@@ -52,7 +52,6 @@ const operationParser = betweenBrackets(
       expr,
    ])
 ).map<LangRes>(res => {
-   console.log(res) // TODO: Remove
    const results = res.result.value as LangRes[];
    return newOk(
       newOne({

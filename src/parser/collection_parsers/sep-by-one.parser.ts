@@ -1,5 +1,6 @@
 import { Parser, State } from "..";
 import { ERR_RESULT } from "../models/parser.model";
+import { Cardinal } from "../models/result-type.model";
 import { newErr } from "../models/result.model";
 
 /**
@@ -21,7 +22,7 @@ export function sepByOne<T = string, S = string, R = string>(separator: Parser<T
             if (thingWeWantState.result.resType === ERR_RESULT) 
                break;
             
-            if (thingWeWantState.result.result.resType === 'one')
+            if (thingWeWantState.result.result.resType === Cardinal.One)
                results.push(thingWeWantState.result.result.value);
             else
                results.push(...thingWeWantState.result.result.value);
@@ -46,7 +47,7 @@ export function sepByOne<T = string, S = string, R = string>(separator: Parser<T
             ...nextState, 
             result: {
                resType: 'ok',
-               result: { resType: 'many', value: results}
+               result: { resType: Cardinal.Many, value: results}
             }
          };
       }

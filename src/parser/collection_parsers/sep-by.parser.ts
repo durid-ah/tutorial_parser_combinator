@@ -1,4 +1,5 @@
 import { ERR_RESULT, Parser, State } from "../models/parser.model";
+import { Cardinal } from "../models/result-type.model";
 
 /**
  * Create the parser that will match values between a specified parsed value
@@ -18,7 +19,7 @@ export function sepBy<T = string, S = string, R = string>(separator: Parser<T,S>
             if (thingWeWantState.result.resType === ERR_RESULT) 
                break;
 
-            if (thingWeWantState.result.result.resType === 'one')
+            if (thingWeWantState.result.result.resType === Cardinal.One)
                results.push(thingWeWantState.result.result.value);
             else
                results.push(...thingWeWantState.result.result.value);
@@ -38,7 +39,7 @@ export function sepBy<T = string, S = string, R = string>(separator: Parser<T,S>
             ...nextState, 
             result: {
                resType: 'ok',
-               result: { resType: 'many', value: results}
+               result: { resType: Cardinal.Many, value: results}
             }
          };
       }

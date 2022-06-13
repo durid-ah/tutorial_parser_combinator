@@ -1,5 +1,5 @@
 import { ERR_RESULT, OK_RESULT, Parser, State } from "../models/parser.model";
-import { Many } from "../models/result-type.model";
+import { Cardinal, Many } from "../models/result-type.model";
 import { mapErr, newErr, ResOk } from "../models/result.model";
 
 /**
@@ -17,7 +17,7 @@ export function manyOne<T = string, R = string>(parser: Parser<T, R>): Parser<T,
          let next = state;
          const results: R[] = [];
          const res: Many<R> = {
-            resType: 'many',
+            resType: Cardinal.Many,
             value: results
          };
          let done = false;
@@ -27,10 +27,10 @@ export function manyOne<T = string, R = string>(parser: Parser<T, R>): Parser<T,
             
             if (testState.result.resType === ERR_RESULT) {
                done = true;
-            } else if (testState.result.result.resType === 'one') {
+            } else if (testState.result.result.resType === Cardinal.One) {
                results.push(testState.result.result.value);
                next = {...testState, result: null};
-            } else if (testState.result.result.resType === 'many') {
+            } else if (testState.result.result.resType === Cardinal.Many) {
                results.push(...testState.result.result.value);
             }
          }

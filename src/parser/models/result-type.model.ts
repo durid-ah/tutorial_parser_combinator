@@ -3,19 +3,24 @@
 export type ResultType<T = string> = One<T> | Many<T>;
 
 export type One<T> = {
-   resType: 'one',
+   resType: Cardinal.One,
    value: T
 }
 
 export type Many<T> = {
-   resType: 'many',
+   resType: Cardinal.Many,
    value: T[]
 }
 
+export enum Cardinal {
+   One,
+   Many
+}
+
 export function newOne<T>(val: T): One<T> {
-   return { resType: 'one', value: val}
+   return { resType: Cardinal.One, value: val}
 }
 
 export function newMany<T>(val: T[]): Many<T> {
-   return { resType: 'many', value: val}
+   return { resType: Cardinal.Many, value: val}
 }

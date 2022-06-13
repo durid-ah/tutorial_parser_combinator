@@ -1,5 +1,5 @@
 import { ERR_RESULT, Parser, State } from "../models/parser.model";
-import { Many } from "../models/result-type.model";
+import { Cardinal, Many } from "../models/result-type.model";
 import { mapErr, newOk } from "../models/result.model";
 
 /**
@@ -18,7 +18,7 @@ export function sequenceOf<T, R, E>(parsers: Parser<T, R, E>[]): Parser<T, R, E>
             
             if (parserState.result.resType === ERR_RESULT)
                return {...parserState}
-            else if (parserState.result.result.resType === 'one')
+            else if (parserState.result.result.resType === Cardinal.One)
                results.push(parserState.result.result.value)
             else
                results.push(...parserState.result.result.value)
@@ -28,7 +28,7 @@ export function sequenceOf<T, R, E>(parsers: Parser<T, R, E>[]): Parser<T, R, E>
          }
 
          const res: Many<R> = {
-            resType: 'many', value: results
+            resType: Cardinal.Many, value: results
          };
 
          return { ...next, result: { resType: 'ok', result: res } };
