@@ -1,13 +1,13 @@
-import { ERR_RESULT, Parser, State } from "./models/parser.model";
+import { Parser, State } from "./models/parser.model";
 import { newOne } from "./models/result-cardinal.model";
-import { mapErr, newErr, newOk } from "./models/result.model";
+import { mapErr, newErr, newOk, ResultType } from "./models/result.model";
 
 const digitsRegex = /^[0-9]+/;
 export function digits<T>(){
    return new Parser<T,string>(
       (state: State<T>): State<string> => {
          const {index, target, result} = state;
-         if (result.resType === ERR_RESULT) return mapErr(state);
+         if (result.resType === ResultType.Error) return mapErr(state);
 
          const slicedTarget = target.slice(index);
          if (slicedTarget.length === 0) {

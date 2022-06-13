@@ -1,6 +1,6 @@
-import { ERR_RESULT, OK_RESULT, Parser, State } from "../models/parser.model";
+import { Parser, State } from "../models/parser.model";
 import { Cardinal, Many } from "../models/result-cardinal.model";
-import { mapErr, newErr, ResOk } from "../models/result.model";
+import { mapErr, newErr, ResOk, ResultType } from "../models/result.model";
 
 /**
  * Creates a parser that matches at least once
@@ -11,7 +11,7 @@ import { mapErr, newErr, ResOk } from "../models/result.model";
 export function manyOne<T = string, R = string>(parser: Parser<T, R>): Parser<T, R> {
    return new Parser<T, R>(
       (state: State<T>): State<R> => {
-         if (state.result.resType === ERR_RESULT) 
+         if (state.result.resType === ResultType.Error) 
             return mapErr<T,R, string>(state);
          
          let next = state;
@@ -25,7 +25,7 @@ export function manyOne<T = string, R = string>(parser: Parser<T, R>): Parser<T,
          while(!done) {
             const testState = parser.parserStateTransfromerFn(next);
             
-            if (testState.result.resType === ERR_RESULT) {
+            if (testState.result.resType === ResultType.Error) {
                done = true;
             } else if (testState.result.result.resType === Cardinal.One) {
                results.push(testState.result.result.value);
@@ -41,7 +41,7 @@ export function manyOne<T = string, R = string>(parser: Parser<T, R>): Parser<T,
          }
       
          return {
-            ...state, result: { resType: 'ok', result: res } 
+            ...state, result: { resType: ResultType.Ok, result: res } 
          };
    });
 }

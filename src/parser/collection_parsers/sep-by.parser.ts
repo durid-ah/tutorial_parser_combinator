@@ -1,5 +1,6 @@
-import { ERR_RESULT, Parser, State } from "../models/parser.model";
+import { Parser, State } from "../models/parser.model";
 import { Cardinal } from "../models/result-cardinal.model";
+import { ResultType } from "../models/result.model";
 
 /**
  * Create the parser that will match values between a specified parsed value
@@ -16,7 +17,7 @@ export function sepBy<T = string, S = string, R = string>(separator: Parser<T,S>
             const thingWeWantState = value
                .parserStateTransfromerFn(nextState);
             
-            if (thingWeWantState.result.resType === ERR_RESULT) 
+            if (thingWeWantState.result.resType === ResultType.Error) 
                break;
 
             if (thingWeWantState.result.result.resType === Cardinal.One)
@@ -29,7 +30,7 @@ export function sepBy<T = string, S = string, R = string>(separator: Parser<T,S>
             const separatorState = separator
                .parserStateTransfromerFn({...nextState});
 
-            if (separatorState.result.resType === ERR_RESULT) 
+            if (separatorState.result.resType === ResultType.Error) 
                break;
 
             nextState = { ...separatorState, result: null };
@@ -38,7 +39,7 @@ export function sepBy<T = string, S = string, R = string>(separator: Parser<T,S>
          return {
             ...nextState, 
             result: {
-               resType: 'ok',
+               resType: ResultType.Ok,
                result: { resType: Cardinal.Many, value: results}
             }
          };

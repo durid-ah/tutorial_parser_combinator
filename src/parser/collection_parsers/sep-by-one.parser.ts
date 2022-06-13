@@ -1,7 +1,6 @@
 import { Parser, State } from "..";
-import { ERR_RESULT } from "../models/parser.model";
 import { Cardinal } from "../models/result-cardinal.model";
-import { newErr } from "../models/result.model";
+import { newErr, ResultType } from "../models/result.model";
 
 /**
  * Create a parser that matches values between a separator
@@ -19,7 +18,7 @@ export function sepByOne<T = string, S = string, R = string>(separator: Parser<T
             const thingWeWantState = value
                .parserStateTransfromerFn(nextState);
             
-            if (thingWeWantState.result.resType === ERR_RESULT) 
+            if (thingWeWantState.result.resType === ResultType.Error) 
                break;
             
             if (thingWeWantState.result.result.resType === Cardinal.One)
@@ -32,7 +31,7 @@ export function sepByOne<T = string, S = string, R = string>(separator: Parser<T
             const separatorState = separator
                .parserStateTransfromerFn(nextState);
             
-            if (separatorState.result.resType === ERR_RESULT) 
+            if (separatorState.result.resType === ResultType.Error) 
                break;
 
                nextState = { ...separatorState, result: null };
@@ -46,7 +45,7 @@ export function sepByOne<T = string, S = string, R = string>(separator: Parser<T
          return {
             ...nextState, 
             result: {
-               resType: 'ok',
+               resType: ResultType.Ok,
                result: { resType: Cardinal.Many, value: results}
             }
          };
