@@ -1,6 +1,7 @@
 import { updateError } from "..";
 import { ChainFn } from "./chain-fn.model";
 import { mapErr, mapOk, newOk, ResError, ResOk, Result, ResultType } from "./result.model";
+import { State } from "./state.model";
 
 /**
  * @typeparam T1 - previous result type
@@ -79,17 +80,7 @@ export class Parser<T1 = string, T2 = string, T3 = string, E1 = string> {
    }
 }
 
-/**
- * The parser's state
- * @typeparam `R` - result value type
- * @typeparam `E` - error value type
- * @typeparam `T` - the type of the target that needs to be parsed
- */
- export type State<R = string, E = string, T = string> = {
-   index: number,
-   target: T, 
-   result: Result<R, E>
-}
+
 
 
 
