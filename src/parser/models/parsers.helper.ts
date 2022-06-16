@@ -1,6 +1,6 @@
 
 import type { ResError, ResOk, Result } from "./result.model";
-import type { State } from "..";
+import { State } from "./state.model";
 
 export function updateState<T = string, E = string>(
    state: State<T, E>, 

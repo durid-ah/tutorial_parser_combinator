@@ -80,10 +80,6 @@ export class Parser<T1 = string, T2 = string, T3 = string, E1 = string> {
    }
 }
 
-
-
-
-
 /** A function type to lazy create a parser */
 export type Thunk<T1, R, T3, E> = () => Parser<T1, R, T3, E>;
 
