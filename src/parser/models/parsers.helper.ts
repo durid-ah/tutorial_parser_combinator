@@ -17,6 +17,12 @@ export function updateResult<T = string, E = string>(
       return { ...state, result };
 }
 
-export function updateError<T = string, E1 = string, E2 = E1>(state: State<T, E1>, error: ResError<E2>): State<T, E2> {
+/**
+ * Update a state's error
+ * @param state
+ * @param error 
+ * @returns 
+ */
+export function updateError<T1 = string, T2 = string, E1 = string, E2 = E1>(state: State<T1, E1, T2>, error: ResError<E2>): State<T1, E2, T2> {
    return {  ...state, result: error};
 }

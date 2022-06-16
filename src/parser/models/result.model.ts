@@ -31,7 +31,7 @@ export function newErr<E>(err: E): ResError<E> {
    return { resType: ResultType.Error, error: err }
 }
 
-export function mapOk<T, E1, E2>(state: State<T, E1>): State<T, E2> {
+export function mapOk<T1, T2, E1, E2>(state: State<T1, E1, T2>): State<T1, E2, T2> {
       
    if (state.result.resType === ResultType.Ok) {
       return {...state, result: state.result}
@@ -40,7 +40,7 @@ export function mapOk<T, E1, E2>(state: State<T, E1>): State<T, E2> {
    }
 }
 
-export function mapErr<T1, T2, E>(state: State<T1, E>): State<T2, E> {
+export function mapErr<T1, T2, T3, E>(state: State<T1, E, T3>): State<T2, E, T3> {
       
    if (state.result.resType === ResultType.Error) {
       return {...state, result: state.result}
