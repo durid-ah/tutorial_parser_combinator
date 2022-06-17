@@ -1,6 +1,6 @@
 import { Parser } from "../models/parser.model";
 import { Cardinal, Many } from "../models/result-cardinal.model";
-import { mapErr, newErr, ResOk, ResultType } from "../models/result.model";
+import { mapErr, newErr, ResultType } from "../models/result.model";
 import { State } from "../models/state.model";
 
 /**
