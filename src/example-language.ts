@@ -21,30 +21,29 @@ export type OperationRes = {
    value: Operation
 }
 
-const betweenBrackets = between<LangRes, LangRes, string>(str('('), str(')'));
-
-const numberParser = digits<LangRes>()
+const betweenBrackets = between<LangRes, LangRes, LangRes, LangRes>(str('('), str(')'));
+const numberParser = digits()
    .map<LangRes>(
       res => newOk(newOne({ type: 'number', value: Number(res.result.value) }))
    );
 
-const operatorParser = choice<LangRes, LangRes>([
+const operatorParser = choice([
    str('+'),
    str('-'),
    str('*'),
    str('/')
 ]);
 
-const expr: Parser<LangRes, LangRes, string> = lazy(
-   () => choice<LangRes, LangRes>([
-      numberParser,
-      operationParser
+const expr: Parser<LangRes, LangRes, LangRes, LangRes> = lazy(
+   () => choice<LangRes, LangRes, LangRes>([
+      numberParser as Parser<LangRes, LangRes, LangRes, string>,
+      operationParser as Parser<LangRes, LangRes, LangRes, string>
    ])
 );
 
 
 const operationParser = betweenBrackets(
-   sequenceOf<LangRes,LangRes, string>([
+   sequenceOf<LangRes,LangRes, LangRes, LangRes>([
       operatorParser,
       str(' '),
       expr,
@@ -63,9 +62,7 @@ const operationParser = betweenBrackets(
          }
       })
    )
-
-}
-);
+});
 
 const interpreter = (propgram: string) => {
    const resultState = expr.run(program);
