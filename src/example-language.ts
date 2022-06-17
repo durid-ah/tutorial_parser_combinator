@@ -1,7 +1,7 @@
 import { evaluate } from "./evaluator";
 import { between, choice, digits, sequenceOf, str, lazy, Parser } from "./parser";
 import { newOne } from "./parser/models/result-cardinal.model";
-import { newOk, ResOk, ResultType } from "./parser/models/result.model";
+import { newOk, ResultType } from "./parser/models/result.model";
 
 export type LangRes = NumberRes | OperationRes | string;
 
@@ -43,7 +43,7 @@ const expr: Parser<LangRes, LangRes, LangRes, LangRes> = lazy(
 
 
 const operationParser = betweenBrackets(
-   sequenceOf<LangRes,LangRes, LangRes, LangRes>([
+   sequenceOf([
       operatorParser,
       str(' '),
       expr,
