@@ -1,11 +1,12 @@
-import { Parser, State } from "./models/parser.model";
+import { Parser } from "./models/parser.model";
 import { newOne } from "./models/result-cardinal.model";
 import { mapErr, newErr, newOk, ResultType } from "./models/result.model";
+import { State } from "./models/state.model";
 
 const lettersRegex = /^[A-Za-z]+/;
-export function letters<T>(){ 
-   return new Parser<T>(
-      (state: State<T>): State<string> => {
+export function letters(){ 
+   return new Parser(
+      (state: State): State => {
          const {index, target, result} = state;
          if (result.resType === ResultType.Error) return mapErr(state);
 

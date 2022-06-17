@@ -11,7 +11,7 @@ import { State } from "./models/state.model";
  */
 export function str(s: string): Parser { 
    return new Parser(
-      ({index, target, result}: State<string, string, string>): State<string, string, string> => {
+      ({index, target, result}: State): State => {
          const state = {index, target, result: null};
          if (result.resType === ResultType.Error) return state;
              
