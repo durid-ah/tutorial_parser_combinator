@@ -6,8 +6,8 @@ import { Result } from "./result.model"
  * @typeparam `E` - error value type
  * @typeparam `T` - the type of the target that needs to be parsed
  */
- export type State<R = string, E = string, T = string> = {
-   index: number,
-   target: T, 
-   result: Result<R, E>
+ export type State<R, E, T> = {
+  index: number,
+  target: T, 
+  result: Result<R, E>
 }
