@@ -69,7 +69,7 @@ export class Parser<R1 = string, R2 = string, T = string, E1 = string> {
     */
    mapError<E2 = string>(fn: (err: ResError<E1>, idx: number) => ResError<E2>): Parser<R1, R2, T, E2> {
       
-      return new Parser<R1,R2, T, E2>((state: State<R1, E2, T>): State<R2, E2, T> => {
+      return new Parser<R1, R2, T, E2>((state: State<R1, E2, T>): State<R2, E2, T> => {
          const next = this.parserStateTransfromerFn(
             { index: state.index, target: state.target, result: null });
 
@@ -80,8 +80,6 @@ export class Parser<R1 = string, R2 = string, T = string, E1 = string> {
    }
 }
 
-/** A function type to lazy create a parser */
-export type Thunk<R1, R2, T, E> = () => Parser<R1, R2, T, E>;
 
 /**
  * Type of the transformer function in the parser
