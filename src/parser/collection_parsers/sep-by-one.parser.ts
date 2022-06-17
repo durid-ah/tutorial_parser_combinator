@@ -1,17 +1,20 @@
-import { Parser, State } from "..";
+import { Parser } from "..";
 import { Cardinal } from "../models/result-cardinal.model";
 import { newErr, ResultType } from "../models/result.model";
+import { State } from "../models/state.model";
 
 /**
  * Create a parser that matches values between a separator
- * @typeparam S the separator type
- * @typeparam R the type of the value that will run the separator
+ * @typeparam `S` the separator type
+ * @typeparam `R2` the type of the value that will run the separator
+ * @typeparam `R1` the type of the previous state
+ * @typeparam `T` the type of the target
  * @param separator the parser of the separator value
  */
-export function sepByOne<T = string, S = string, R = string>(separator: Parser<T, S>) { 
-   (value: Parser<T,R>) => new Parser<T,R>(
-      (state: State<T>): State<R> => {
-         const results: R[] = [];
+export function sepByOne<R1, R2, T, S>(separator: Parser<R1, S, T>) { 
+   (value: Parser<R1,R2,T>) => new Parser<R1,R2,T>(
+      (state: State<R1, string, T>): State<R2, string, T> => {
+         const results: R2[] = [];
          let nextState = state;
 
          while(true) {
