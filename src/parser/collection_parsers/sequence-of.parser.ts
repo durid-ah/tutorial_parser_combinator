@@ -1,18 +1,19 @@
-import { Parser, State } from "../models/parser.model";
+import { Parser } from "../models/parser.model";
 import { Cardinal, Many } from "../models/result-cardinal.model";
 import { mapErr, newOk, ResultType } from "../models/result.model";
+import { State } from "../models/state.model";
 
 /**
  * Match the array of parsers that are passed in
  * @returns 
  */
-export function sequenceOf<T, R, E>(parsers: Parser<T, R, E>[]): Parser<T, R, E> { 
-   return new Parser<T, R, E>(
-      (state: State<T, E>): State<R, E> => {
+export function sequenceOf<R1, R2, T, E>(parsers: Parser<R1, R2, T, E>[]): Parser<R1, R2, T, E> { 
+   return new Parser<R1, R2, T, E>(
+      (state: State<R1, E, T>): State<R2, E, T> => {
          if (state.result.resType === ResultType.Error) 
             return mapErr(state);
-         const results: R[] = [];
-         let next: State<T, E> = state;
+         const results: R2[] = [];
+         let next: State<R1, E, T> = state;
          for (let parser of parsers) {
             const parserState = parser.parserStateTransfromerFn(next);
             
@@ -27,7 +28,7 @@ export function sequenceOf<T, R, E>(parsers: Parser<T, R, E>[]): Parser<T, R, E>
 
          }
 
-         const res: Many<R> = {
+         const res: Many<R2> = {
             resType: Cardinal.Many, value: results
          };
 
