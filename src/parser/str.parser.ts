@@ -1,15 +1,17 @@
-import { Parser, State, updateError, updateState } from ".";
+import { Parser, updateError, updateState } from ".";
 import { newOne } from "./models/result-cardinal.model";
 import { newErr, newOk, ResError, ResultType } from "./models/result.model";
+import { State } from "./models/state.model";
 
 /**
- * @typeparam `<T = string>` the type of the preceeding state 
+ * @typeparam `<T1 = string>` the type of the preceeding state 
+ * @typeparam `<T2 = string>` the type of the preceeding state 
  * @param s the string that needs to be found in the parser
  * @returns 
  */
-export function str<T = string>(s: string): Parser<T> { 
-   return new Parser<T>(
-      ({index, target, result}: State<T>): State => {
+export function str(s: string): Parser { 
+   return new Parser(
+      ({index, target, result}: State<string, string, string>): State<string, string, string> => {
          const state = {index, target, result: null};
          if (result.resType === ResultType.Error) return state;
              
