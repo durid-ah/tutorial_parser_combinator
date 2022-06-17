@@ -1,6 +1,7 @@
-import { Parser, State } from "../models/parser.model";
+import { Parser } from "../models/parser.model";
 import { Cardinal, Many } from "../models/result-cardinal.model";
 import { mapErr, newErr, ResOk, ResultType } from "../models/result.model";
+import { State } from "../models/state.model";
 
 /**
  * Creates a parser that matches at least once
@@ -8,15 +9,15 @@ import { mapErr, newErr, ResOk, ResultType } from "../models/result.model";
  * @param parser the parser to be matched
  * @returns returns the built up many parser
  */
-export function manyOne<T = string, R = string>(parser: Parser<T, R>): Parser<T, R> {
-   return new Parser<T, R>(
-      (state: State<T>): State<R> => {
+export function manyOne<R1, R2, T>(parser: Parser<R1, R2, T>) {
+   return new Parser<R1, R2, T>(
+      (state: State<R1, string, T>): State<R2, string, T> => {
          if (state.result.resType === ResultType.Error) 
-            return mapErr<T,R, string>(state);
+            return mapErr<R1, R2, T, string>(state);
          
          let next = state;
-         const results: R[] = [];
-         const res: Many<R> = {
+         const results: R2[] = [];
+         const res: Many<R2> = {
             resType: Cardinal.Many,
             value: results
          };
