@@ -1,5 +1,5 @@
-import type { State } from "./parser.model";
 import type { ResultCardinal } from "./result-cardinal.model";
+import { State } from "./state.model";
 
 /** 
  * Result discriminated union of `ResOk` and `ResError` 
@@ -40,7 +40,7 @@ export function mapOk<T1, T2, E1, E2>(state: State<T1, E1, T2>): State<T1, E2, T
    }
 }
 
-export function mapErr<T1, T2, T3, E>(state: State<T1, E, T3>): State<T2, E, T3> {
+export function mapErr<R1, R2, T, E>(state: State<R1, E, T>): State<R2, E, T> {
       
    if (state.result.resType === ResultType.Error) {
       return {...state, result: state.result}
