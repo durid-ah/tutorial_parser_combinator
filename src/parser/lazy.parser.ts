@@ -1,8 +1,14 @@
-import { Parser, Thunk, State } from ".";
+import { Parser } from ".";
+import { State } from "./models/state.model";
 
-export function lazy<T, R, E>(parserThunk: Thunk<T, R, E>): Parser<T, R, E> { 
-   return new Parser<T, R, E>(
-      (state: State<T, E>): State<R, E> => {
+
+/** A function type to lazy create a parser */
+export type Thunk<R1, R2, T, E> = () => Parser<R1, R2, T, E>;
+
+/** A lazy executed parser */
+export function lazy<R1, R2, T, E>(parserThunk: Thunk<R1, R2, T, E>) { 
+   return new Parser<R1, R2, T, E>(
+      (state: State<R1, E, T>): State<R2, E, T> => {
          const parser = parserThunk();
          return parser.parserStateTransfromerFn(state);
       }
