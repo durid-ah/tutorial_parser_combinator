@@ -16,7 +16,9 @@ export function bit<R>() {
             return {...state, result: newErr(`Bit: Unexpected end of input`)};
          
          const byte = state.target.getUint8(byteOffset);
-         const bitOffset = state.index % 8;
+         
+         // To get the right most number the '7 -' should be removed
+         const bitOffset = 7 - (state.index % 8);
          const result = (byte & 1 << bitOffset) >> bitOffset;
          const res: Result<number, string> = {
             resType: ResultType.Ok, 
