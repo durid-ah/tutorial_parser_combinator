@@ -7,7 +7,8 @@ import { State } from "../models/state.model";
  * Creates a parser that matches at least once
  * @typeparam R the type of value that will be matched
  * @param parser the parser to be matched
- * @returns returns the built up many parser
+ * @returns returns the built up many parser 
+ * (if the parser that is passed in returns a result of Many it will be flattened)
  */
 export function manyOne<R1, R2, T>(parser: Parser<R1, R2, T>) {
    return new Parser<R1, R2, T>(
@@ -34,6 +35,8 @@ export function manyOne<R1, R2, T>(parser: Parser<R1, R2, T>) {
             } else if (testState.result.result.resType === Cardinal.Many) {
                results.push(...testState.result.result.value);
             }
+
+            next.index = testState.index;
          }
       
          if (results.length === 0) {
