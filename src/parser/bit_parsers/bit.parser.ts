@@ -1,5 +1,4 @@
 import { Parser } from "../models/parser.model";
-import { updateError, updateState } from "../models/parsers.helper";
 import { Cardinal } from "../models/result-cardinal.model";
 import { mapErr, newErr, Result, ResultType } from "../models/result.model";
 import { State } from "../models/state.model";
@@ -14,8 +13,7 @@ export function bit<R>() {
          const byteOffset = Math.floor(state.index/ 8);
 
          if (byteOffset >= state.target.byteLength)
-            return updateError(
-               mapErr(state), newErr(`Bit: Unexpected end of input`));
+            return {...state, result: newErr(`Bit: Unexpected end of input`)};
          
          const byte = state.target.getUint8(byteOffset);
          const bitOffset = state.index % 8;
@@ -25,6 +23,6 @@ export function bit<R>() {
             result: { resType: Cardinal.One, value: result }
          };
 
-         return {...state, result: res};          
+         return {...state, index: state.index + 1, result: res};          
       });
 }

@@ -31,6 +31,8 @@ export function many<R1, R2, T, E>(parser: Parser<R1, R2, T, E>) {
             } else if (testState.result.result.resType === Cardinal.Many) {
                results.push(...testState.result.result.value);
             }
+
+            state.index = testState.index;
          }
 
          const res: Many<R2> = {
