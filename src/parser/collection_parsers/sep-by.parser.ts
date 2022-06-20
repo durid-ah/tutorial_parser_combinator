@@ -1,6 +1,6 @@
 import { Parser } from "../models/parser.model";
 import { Cardinal } from "../models/result-cardinal.model";
-import { ResultType } from "../models/result.model";
+import { mapErr, ResultType } from "../models/result.model";
 import { State } from "../models/state.model";
 
 /**
@@ -15,7 +15,10 @@ import { State } from "../models/state.model";
  */
 export function sepBy<I, S, R, T, E>(separator: Parser<I, S, T, E>) { 
    return (value: Parser<I, R, T, E>) => new Parser<I, R, T, E>(
-      (state: State<I, E, T>): State<R, E, T> => { 
+      (state: State<I, E, T>): State<R, E, T> => {
+         if (state.result.resType === ResultType.Error)
+            return mapErr(state);
+         
          const results: R[] = [];
          let nextState = state;
 
