@@ -1,5 +1,6 @@
 import { evaluate } from "./evaluator";
-import { between, choice, digits, sequenceOf, str, lazy, Parser } from "./parser";
+import { between, choice, digits, sequenceOf, str, lazy, Parser, many } from "./parser";
+import { bit } from "./parser/bit_parsers/bit.parser";
 import { newOne } from "./parser/models/result-cardinal.model";
 import { newOk, ResultType } from "./parser/models/result.model";
 
@@ -75,3 +76,12 @@ const interpreter = (propgram: string) => {
 const program = '(+ (* 10 2) (- (/ 50 3) 2))';
 const result = interpreter(program);
 console.log(JSON.stringify(result, null, ' '))
+
+
+const data = (new Uint8Array([234,235])).buffer;
+const dataView = new DataView(data);
+const bitSeq = many(bit());
+
+const res = bitSeq.run(dataView);
+
+console.log(res.result);

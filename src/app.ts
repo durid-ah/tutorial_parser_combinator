@@ -1,4 +1,5 @@
-import { between, digits, letters, sequenceOf, sepBy, str } from "./parser";
+import { between, digits, letters, sequenceOf, sepBy, str, many } from "./parser";
+import { bit } from "./parser/bit_parsers/bit.parser";
 
 // const parser = str('hello there!');
 // console.log(parser.run('hello there!'));
@@ -96,3 +97,11 @@ import { between, digits, letters, sequenceOf, sepBy, str } from "./parser";
 // console.log(arrayParser.run('[1,2,3,4]'));
 
 // console.log(arrayParser.run('[1,[2,4],5]'));
+
+const data = (new Uint8Array([234,235])).buffer;
+const dataView = new DataView(data);
+const bitSeq = many(bit());
+
+const res = bitSeq.run(dataView);
+
+console.log(res.result);
