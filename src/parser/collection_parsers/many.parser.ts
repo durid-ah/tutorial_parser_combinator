@@ -11,7 +11,7 @@ import { State } from "../models/state.model";
  * @param parser the parser that needs to matched 
  * @returns the many parser
  */
-export function many<R1, R2, T, E>(parser: Parser<R1, R2, T, E>) {
+export function Many<R1, R2, T, E>(parser: Parser<R1, R2, T, E>) {
    return new Parser<R1, R2, T, E>(
       (state: State<R1, E, T>): State<R2, E, T> => {
          if (state.result.resType === ResultType.Error) 

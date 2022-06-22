@@ -8,7 +8,7 @@ import { State } from "./models/state.model";
  * @param parsers 
  * @returns 
  */
-export function choice<R1, R2, T>(parsers: Parser<R1, R2, T>[]) {
+export function Choice<R1, R2, T>(parsers: Parser<R1, R2, T>[]) {
    return new Parser<R1, R2, T>(
       (state: State<R1, string, T>): State<R2, string, T> => {
          if (state.result.resType === ResultType.Error) 

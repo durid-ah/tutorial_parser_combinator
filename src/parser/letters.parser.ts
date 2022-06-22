@@ -4,7 +4,7 @@ import { mapErr, newErr, newOk, ResultType } from "./models/result.model";
 import { State } from "./models/state.model";
 
 const lettersRegex = /^[A-Za-z]+/;
-export function letters(){ 
+export function Letters(){ 
    return new Parser(
       (state: State): State => {
          const {index, target, result} = state;

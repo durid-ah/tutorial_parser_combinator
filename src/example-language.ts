@@ -1,5 +1,5 @@
 import { evaluate } from "./evaluator";
-import { between, choice, digits, sequenceOf, str, lazy, Parser, many } from "./parser";
+import { Between, Choice, Digits, SequenceOf, Str, Lazy, Parser, Many } from "./parser";
 import { Bit } from "./parser/bit_parsers/bit.parser";
 import { newOne } from "./parser/models/result-cardinal.model";
 import { newOk, ResultType } from "./parser/models/result.model";
@@ -22,21 +22,21 @@ export type OperationRes = {
    value: Operation
 }
 
-const betweenBrackets = between<LangRes, LangRes, LangRes, LangRes>(str('('), str(')'));
-const numberParser = digits()
+const betweenBrackets = Between<LangRes, LangRes, LangRes, LangRes>(Str('('), Str(')'));
+const numberParser = Digits()
    .map<LangRes>(
       res => newOk(newOne({ type: 'number', value: Number(res.result.value) }))
    );
 
-const operatorParser = choice([
-   str('+'),
-   str('-'),
-   str('*'),
-   str('/')
+const operatorParser = Choice([
+   Str('+'),
+   Str('-'),
+   Str('*'),
+   Str('/')
 ]);
 
-const expr: Parser<LangRes, LangRes, LangRes, LangRes> = lazy(
-   () => choice<LangRes, LangRes, LangRes>([
+const expr: Parser<LangRes, LangRes, LangRes, LangRes> = Lazy(
+   () => Choice<LangRes, LangRes, LangRes>([
       numberParser as Parser<LangRes, LangRes, LangRes, string>,
       operationParser as Parser<LangRes, LangRes, LangRes, string>
    ])
@@ -44,11 +44,11 @@ const expr: Parser<LangRes, LangRes, LangRes, LangRes> = lazy(
 
 
 const operationParser = betweenBrackets(
-   sequenceOf([
+   SequenceOf([
       operatorParser,
-      str(' '),
+      Str(' '),
       expr,
-      str(' '),
+      Str(' '),
       expr,
    ])
 ).map<LangRes>(res => {
@@ -80,7 +80,7 @@ console.log(JSON.stringify(result, null, ' '))
 
 const data = (new Uint8Array([234,235])).buffer;
 const dataView = new DataView(data);
-const bitSeq = many(Bit());
+const bitSeq = Many(Bit());
 
 const res = bitSeq.run(dataView);
 

@@ -4,7 +4,7 @@ import { mapErr, newErr, newOk, ResultType } from "./models/result.model";
 import { State } from "./models/state.model";
 
 const digitsRegex = /^[0-9]+/;
-export function digits(){
+export function Digits(){
    return new Parser(
       (state: State): State => {
          const {index, target, result} = state;

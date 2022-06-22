@@ -9,7 +9,7 @@ import { State } from "./models/state.model";
  * @param s the string that needs to be found in the parser
  * @returns 
  */
-export function str(s: string): Parser { 
+export function Str(s: string): Parser { 
    return new Parser(
       ({index, target, result}: State): State => {
          const state = {index, target, result: null};

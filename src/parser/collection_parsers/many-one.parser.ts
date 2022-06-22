@@ -10,7 +10,7 @@ import { State } from "../models/state.model";
  * @returns returns the built up many parser 
  * (if the parser that is passed in returns a result of Many it will be flattened)
  */
-export function manyOne<R1, R2, T>(parser: Parser<R1, R2, T>) {
+export function ManyOne<R1, R2, T>(parser: Parser<R1, R2, T>) {
    return new Parser<R1, R2, T>(
       (state: State<R1, string, T>): State<R2, string, T> => {
          if (state.result.resType === ResultType.Error) 

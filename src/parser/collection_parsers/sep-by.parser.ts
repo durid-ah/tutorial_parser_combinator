@@ -13,7 +13,7 @@ import { State } from "../models/state.model";
  * @param separator The parser that will match the separator value(s)
  * @returns 
  */
-export function sepBy<I, S, R, T, E>(separator: Parser<I, S, T, E>) { 
+export function SepBy<I, S, R, T, E>(separator: Parser<I, S, T, E>) { 
    return (value: Parser<I, R, T, E>) => new Parser<I, R, T, E>(
       (state: State<I, E, T>): State<R, E, T> => {
          if (state.result.resType === ResultType.Error)

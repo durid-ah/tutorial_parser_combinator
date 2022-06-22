@@ -11,7 +11,7 @@ import { State } from "../models/state.model";
  * @typeparam `T` the type of the target
  * @param separator the parser of the separator value
  */
-export function sepByOne<R1, R2, T, S>(separator: Parser<R1, S, T>) { 
+export function SepByOne<R1, R2, T, S>(separator: Parser<R1, S, T>) { 
    (value: Parser<R1,R2,T>) => new Parser<R1,R2,T>(
       (state: State<R1, string, T>): State<R2, string, T> => {
          if (state.result.resType === ResultType.Error)
