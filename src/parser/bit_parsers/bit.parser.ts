@@ -3,7 +3,10 @@ import { Cardinal } from "../models/result-cardinal.model";
 import { mapErr, newErr, Result, ResultType } from "../models/result.model";
 import { State } from "../models/state.model";
 
-export function bit<R>() {
+/**
+ * A parser that gets the bits from a DataView
+ */
+export function Bit<R>() {
    return new Parser<R,number,DataView,string>(
       (state: State<R, string,DataView>): State<number,string,DataView> => {
          if (state.result.resType === ResultType.Error)
@@ -16,7 +19,7 @@ export function bit<R>() {
             return {...state, result: newErr(`Bit: Unexpected end of input`)};
          
          const byte = state.target.getUint8(byteOffset);
-         
+
          // To get the right most number the '7 -' should be removed
          const bitOffset = 7 - (state.index % 8);
          const result = (byte & 1 << bitOffset) >> bitOffset;

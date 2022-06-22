@@ -3,7 +3,7 @@ import { Cardinal } from "../models/result-cardinal.model";
 import { mapErr, newErr, Result, ResultType } from "../models/result.model";
 import { State } from "../models/state.model";
 
-export function zero<R>() {
+export function Zero<R>() {
    return new Parser<R,number,DataView,string>(
       (state: State<R, string,DataView>): State<number,string,DataView> => {
          if (state.result.resType === ResultType.Error)

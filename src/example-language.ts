@@ -1,6 +1,6 @@
 import { evaluate } from "./evaluator";
 import { between, choice, digits, sequenceOf, str, lazy, Parser, many } from "./parser";
-import { bit } from "./parser/bit_parsers/bit.parser";
+import { Bit } from "./parser/bit_parsers/bit.parser";
 import { newOne } from "./parser/models/result-cardinal.model";
 import { newOk, ResultType } from "./parser/models/result.model";
 
@@ -80,7 +80,7 @@ console.log(JSON.stringify(result, null, ' '))
 
 const data = (new Uint8Array([234,235])).buffer;
 const dataView = new DataView(data);
-const bitSeq = many(bit());
+const bitSeq = many(Bit());
 
 const res = bitSeq.run(dataView);
 

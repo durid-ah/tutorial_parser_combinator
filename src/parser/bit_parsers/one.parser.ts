@@ -3,7 +3,11 @@ import { Cardinal } from "../models/result-cardinal.model";
 import { mapErr, newErr, Result, ResultType } from "../models/result.model";
 import { State } from "../models/state.model";
 
-export function one<R>() {
+
+/**
+ * Parser a `1` (true) bit
+ */
+export function One<R>() {
    return new Parser<R,number,DataView,string>(
       (state: State<R, string,DataView>): State<number,string,DataView> => {
          if (state.result.resType === ResultType.Error)

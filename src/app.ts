@@ -1,5 +1,5 @@
 import { between, digits, letters, sequenceOf, sepBy, str, many } from "./parser";
-import { bit } from "./parser/bit_parsers/bit.parser";
+import { Bit } from "./parser/bit_parsers/bit.parser";
 
 // const parser = str('hello there!');
 // console.log(parser.run('hello there!'));
@@ -100,7 +100,7 @@ import { bit } from "./parser/bit_parsers/bit.parser";
 
 const data = (new Uint8Array([234,235])).buffer;
 const dataView = new DataView(data);
-const bitSeq = many(bit());
+const bitSeq = many(Bit());
 
 const res = bitSeq.run(dataView);
 
