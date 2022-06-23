@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/durid-ah/tutorial_parser_combinator#readme",
   "devDependencies": {
+    "@types/jasmine": "^4.0.3",
     "eslint": "^8.16.0",
+    "jasmine": "^4.2.1",
     "typescript": "^4.7.2"
   }
 }
