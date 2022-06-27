@@ -13,7 +13,7 @@ export function Bit<R>() {
             return mapErr(state);
 
          
-         const byteOffset = Math.floor(state.index/ 8);
+         const byteOffset = Math.floor(state.index / 8);
 
          if (byteOffset >= state.target.byteLength)
             return {...state, result: newErr(`Bit: Unexpected end of input`)};
@@ -22,7 +22,7 @@ export function Bit<R>() {
 
          // To get the right most number the '7 -' should be removed
          const bitOffset = 7 - (state.index % 8);
-         const result = (byte & 1 << bitOffset) >> bitOffset;
+         const result = (byte & (1 << bitOffset)) >> bitOffset;
          const res: Result<number, string> = {
             resType: ResultType.Ok, 
             result: { resType: Cardinal.One, value: result }
