@@ -4,7 +4,7 @@
   "description": "Following the Low Level JavaScript tutorial on parser combinators",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ts-node ./node_modules/jasmine/bin/jasmine --config=./spec/support/jasmine.json",
     "prestart": "npx tsc",
     "start": "node dist\\example-language.js"
   },
@@ -23,6 +23,7 @@
     "@types/jasmine": "^4.0.3",
     "eslint": "^8.16.0",
     "jasmine": "^4.2.1",
+    "ts-node": "^10.8.1",
     "typescript": "^4.7.2"
   }
 }
