@@ -4,6 +4,11 @@ import { newOk } from "../models/result.model";
 import { Bit } from "./bit.parser";
 
 
+/**
+ * Parse an int value of { bitCount } number of bits
+ * @param bitCount the number of bits in the number to be parsed
+ * @returns 
+ */
 export function Int(bitCount: number) {
    if (bitCount < 1)
    throw new Error(`UInt: n must be larger than 0, but we got ${bitCount}`);
@@ -23,7 +28,7 @@ export function Int(bitCount: number) {
 
          else {
             const mappedResult = -(1 + (bits.result.value as number[])
-            .reduce((acc, bit, i) => acc + Number(BigInt(bit === 0? 1: 0) << BigInt(bitCount - 1 -i)), 0));
+               .reduce((acc, bit, i) => acc + Number(BigInt(bit === 0? 1: 0) << BigInt(bitCount - 1 -i)), 0));
          
             return newOk(newOne(mappedResult));
          }
