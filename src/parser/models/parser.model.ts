@@ -1,6 +1,6 @@
 import { updateError } from "..";
 import { ChainFn } from "./chain-fn.model";
-import { mapErr, mapOk, newOk, ResError, ResOk, Result, ResultType } from "./result.model";
+import { mapErr, mapOk, newOk, ResError, ResOk, ResultType } from "./result.model";
 import { State } from "./state.model";
 
 /**
