@@ -1,6 +1,7 @@
 import { evaluate } from "./evaluator";
 import { Between, Choice, Digits, SequenceOf, Str, Lazy, Parser, Many } from "./parser";
 import { Bit } from "./parser/bit_parsers/bit.parser";
+import { RawString } from "./parser/bit_parsers/raw-string.parser";
 import { newOne } from "./parser/models/result-cardinal.model";
 import { newOk, ResultType } from "./parser/models/result.model";
 
@@ -78,10 +79,9 @@ const result = interpreter(program);
 console.log(JSON.stringify(result, null, ' '))
 
 
-const data = (new Uint8Array([234,235])).buffer;
-const dataView = new DataView(data);
-const bitSeq = Many(Bit());
+// const stringParser = RawString('Hello world!');
+// const stringAsCharcodes = 'Hello world'.split('').map(c => c.charCodeAt(0))
+// const data = new DataView((new Uint8Array(stringAsCharcodes)).buffer);
 
-const res = bitSeq.run(dataView);
-
-console.log(res.result);
+// const res = stringParser.run(data);
+// console.log(res);
