@@ -37,8 +37,8 @@ export class Parser<R1 = string, R2 = string, T = string, E1 = string> {
          
          // If there is an error prevent the chaining from running
          if (next.result.resType === ResultType.Error) {
-            next.result = null;
-            return (next as unknown as State<S, E1, T>);
+            let res = next.result as ResError<E1>;
+            return {...next, result: res};
          }
 
          const nextParser = fn(next.result);
