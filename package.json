@@ -6,7 +6,7 @@
   "scripts": {
     "test": "ts-node ./node_modules/jasmine/bin/jasmine --config=./spec/support/jasmine.json",
     "prestart": "npx tsc",
-    "start": "node dist\\example-language.js"
+    "start": "node dist\\src\\example-language.js"
   },
   "repository": {
     "type": "git",
