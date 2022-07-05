@@ -1,4 +1,4 @@
-import { Many, SequenceOf } from "../../src/parser";
+import { SequenceOf } from "../../src/parser";
 import { Int } from "../../src/parser/bit_parsers/int.parser";
 import { ResOk } from "../../src/parser/models/result.model";
 
