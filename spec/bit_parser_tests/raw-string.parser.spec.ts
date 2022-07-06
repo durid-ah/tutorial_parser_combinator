@@ -19,14 +19,6 @@ describe('RawString Parser Tests', () => {
       const data = new DataView((new Uint8Array(stringAsCharcodes)).buffer);
 
       const result = stringParser.run(data);
-      console.log(result);
       expect(result.result.resType).toEqual(ResultType.Error);
    });
-
-   // it('Should parse the first 8 bits in the DataView to a negative value', () => {
-   //    const data = new DataView((new Int8Array([-128])).buffer);
-      
-   //    const value = (SequenceOf([intParser]).run(data).result as ResOk<number>).result.value;
-   //    expect(value).toEqual([-128]);
-   // });
 });
