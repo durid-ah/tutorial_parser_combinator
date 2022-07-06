@@ -17,7 +17,7 @@ export function UInt(bitCount: number) {
 
 
    return SequenceOf(Array.from({length: bitCount}, () => Bit()))
-      .map<number>(bits => {
+      .mapOk<number>(bits => {
          const mappedResult = (bits.result.value as number[])
             .reduce((acc, bit, i) => acc + Number(BigInt(bit) << BigInt(bitCount - 1 -i)), 0);
          

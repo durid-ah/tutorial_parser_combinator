@@ -17,7 +17,7 @@ export function Int(bitCount: number) {
       throw new Error(`UInt: n must be less than 32, but we got ${bitCount}`);
 
    return SequenceOf(Array.from({length: bitCount}, () => Bit()))
-      .map<number>(bits => {
+      .mapOk<number>(bits => {
          const bitArr = bits.result.value as number[];
          if (bitArr[0] === 0) {
             const mappedResult = (bits.result.value as number[])
